@@ -1,0 +1,196 @@
+[
+  {
+    "bookId": "gita",
+    "bookName": "Bhagavad Gita",
+    "description": "Dialogue between Prince Arjuna and Lord Krishna on duty, self-realization, and devotion.",
+    "chapters": [
+      { "id": 1, "name": "Arjuna Vishada Yoga", "summary": "Arjuna experiences intense grief, despondency, and anxiety on seeing his relatives, uncles, cousins, and brothers on the battlefield of Kurukshetra. He refuses to fight them. Addresses family conflict, disputes with brothers/cousins, feeling unloved or betrayed by relatives, grief over family relations, moral crises, and fear of hurting family members." },
+      { "id": 2, "name": "Sankhya Yoga", "summary": "Krishna teaches the eternity of the Soul, overcoming grief and fear of death, performing selfless action (Karma Yoga), mind control, rising above emotional hurt, and traits of a person of steady wisdom. Addresses overthinking, exam stress, anxiety about results, feeling overwhelmed, bereavement, loss of loved ones, and relationship detachment." },
+      { "id": 3, "name": "Karma Yoga", "summary": "The path of selfless action, explaining why work is necessary, how to perform duty without desire for results, and action without expectation. Addresses career stress, lack of motivation, feeling burnt out by work, exam preparation, and finding meaning in everyday tasks." },
+      { "id": 4, "name": "Jnana Karma Sanyasa Yoga", "summary": "The Yoga of Knowledge and sacrifice, divine birth of Krishna, renunciation of action, and the fire of knowledge. Addresses spiritual ignorance, searching for truth, and understanding divine cycles." },
+      { "id": 5, "name": "Karma Sanyasa Yoga", "summary": "Yoga of renunciation, comparing renunciation of action with performance of selfless action, equanimity, and inner peace. Addresses mental peace, desire control, and emotional stability." },
+      { "id": 6, "name": "Dhyana Yoga", "summary": "Yoga of Meditation, controlling the restless and wandering mind, self-discipline, practice of moderation, and self-realization. Addresses overthinking, restlessness, stress relief, focus issues, loneliness, depression, and mental health." },
+      { "id": 7, "name": "Jnana Vijnana Yoga", "summary": "Knowledge of the Absolute, divine energy, and the four types of devotees. Addresses seeking God, finding faith, and understanding the universe." },
+      { "id": 8, "name": "Akshara Brahma Yoga", "summary": "Yoga of the imperishable Brahman, path to liberation, and remembrance of the Divine at the time of death. Addresses fear of death, mortality, afterlife, and spiritual consistency." },
+      { "id": 9, "name": "Raja Vidya Raja Guhya Yoga", "summary": "The sovereign science and secret, divine protection, and path of total devotion. Addresses seeking safety, feeling unprotected, building faith, and divine love." },
+      { "id": 10, "name": "Vibhuti Vistara Yoga", "summary": "The infinite divine opulences of God manifested in the creation. Addresses seeing divinity in nature, appreciation, and cosmic beauty." },
+      { "id": 11, "name": "Viswarupa Darshana Yoga", "summary": "Manifestation of the cosmic form of Krishna to Arjuna on the battlefield. Addresses fear, awe, and realizing the grand scale of existence." },
+      { "id": 12, "name": "Bhakti Yoga", "summary": "The path of devotion, characteristics of a dear devotee, personal vs impersonal worship, tolerance, and compassion. Addresses relationship hurt, handling unrequited love, dealing with feeling unloved or rejected by family/friends, cultivating compassion, and forgiveness." },
+      { "id": 13, "name": "Kshetra Kshetrajna Vibhaga Yoga", "summary": "Yoga of the field and the knower of the field (matter and spirit, body and soul). Addresses body image issues, health anxiety, and separating identity from the physical body." },
+      { "id": 14, "name": "Gunatraya Vibhaga Yoga", "summary": "The three modes of material nature (Sattva/purity, Rajas/passion, Tamas/ignorance) and transcending them. Addresses anger, laziness, lethargy, procrastination, greed, and toxic environments." },
+      { "id": 15, "name": "Purushottama Yoga", "summary": "Yoga of the supreme person, comparing the cosmic tree of creation and transcending the perishable. Addresses feeling disconnected, seeking roots, and finding freedom." },
+      { "id": 16, "name": "Daivasura Sampad Vibhaga Yoga", "summary": "The divine (fearlessness, truth, charity) and demonic (anger, pride, greed, arrogance) qualities inherent in human beings. Addresses anger issues, dealing with toxic/arrogant people, greed, ego control, and developing virtues." },
+      { "id": 17, "name": "Shraddhatraya Vibhaga Yoga", "summary": "The three divisions of faith (food, sacrifice, penance, charity). Addresses healthy eating habits, spiritual discipline, and charity." },
+      { "id": 18, "name": "Moksha Sanyasa Yoga", "summary": "Summary of all teachings, surrender, duty, and final liberation. Addresses decision making paralysis, guilt, fear of making wrong choices, seeking ultimate freedom, and total surrender." }
+    ]
+  },
+  {
+    "bookId": "yoga_sutras",
+    "bookName": "Patanjali Yoga Sutras",
+    "description": "Systematic collection of aphorisms outlining the science of Yoga, mind control, and meditation.",
+    "chapters": [
+      { "id": 1, "name": "Samadhi Pada", "summary": "Deals with the definition of Yoga, fluctuations of the mind, practice (abhyasa) and detachment (vairagya), and samadhi. Addresses focus, concentration, overthinking, anxiety, and mental peace." },
+      { "id": 2, "name": "Sadhana Pada", "summary": "Explains the practice of Kriya Yoga, the five obstacles (kleshas) such as ignorance, egoism, and attachment, and the limbs of Ashtanga Yoga (Yama, Niyama, Asana, Pranayama, Pratyahara). Addresses habits, discipline, physical health, and breath control." },
+      { "id": 3, "name": "Vibhuti Pada", "summary": "Focuses on concentration (dharana), meditation (dhyana), absorption (samadhi), and spiritual powers. Addresses deep focus and intuitive insights." },
+      { "id": 4, "name": "Kaivalya Pada", "summary": "Discusses liberation, karma, mind construction, and absolute freedom. Addresses overcoming karma and path to final liberation." }
+    ]
+  },
+  {
+    "bookId": "isha_upanishad",
+    "bookName": "Isha Upanishad",
+    "description": "Short but profound scripture on the nature of Self, action without attachment, and the unity of creation.",
+    "chapters": [
+      { "id": 1, "name": "Isha Upanishad Verses", "summary": "Contains 18 verses detailing seeing the Divine in all things, living a hundred years performing selfless duties, and the nature of Atman. Addresses greed, materialism, and feeling spiritually disconnected." }
+    ]
+  },
+  {
+    "bookId": "mandukya_upanishad",
+    "bookName": "Mandukya Upanishad",
+    "description": "Short Upanishad analyzing the symbol OM and the four states of consciousness.",
+    "chapters": [
+      { "id": 1, "name": "Mandukya Upanishad Verses", "summary": "Analysis of AUM and the four states of consciousness: waking (Vaishvanara), dreaming (Taijasa), deep sleep (Prajna), and the fourth state of pure non-dual consciousness (Turiya). Addresses overthinking, deep sleep issues, and finding absolute peace." }
+    ]
+  },
+  {
+    "bookId": "shiva_sutras",
+    "bookName": "Shiva Sutras",
+    "description": "Aphorisms of Kashmir Shaivism detailing path to divine realization.",
+    "chapters": [
+      { "id": 1, "name": "Shambhavopaya", "summary": "Deals with the path of Shiva (divine consciousness), realizing the universe as one's own body, and expansion of awareness. Addresses seeking universal oneness and spiritual identity." },
+      { "id": 2, "name": "Shaktopaya", "summary": "Deals with the path of Shakti (mental discipline, mantras, and pure thoughts). Addresses mental focus, willpower, and mantra meditation." },
+      { "id": 3, "name": "Anavopaya", "summary": "Deals with the path of the individual (breath control, body awareness, and physical discipline). Addresses breathing exercises, lifestyle discipline, and physical calmness." }
+    ]
+  },
+  {
+    "bookId": "ashtavakra_gita",
+    "bookName": "Ashtavakra Gita",
+    "description": "Profound Advaita dialogue on non-duality and absolute freedom.",
+    "chapters": [
+      { "id": 1, "name": "Self-Realization Instruction", "summary": "Sage Ashtavakra instructs King Janaka on the witness consciousness, freedom from desires, and seeing oneself as pure awareness. Addresses mental bondage, feeling trapped, and seeking inner freedom." },
+      { "id": 2, "name": "Joy of Self-Realization", "summary": "Janaka describes his own realization and the joy of discovering the Self is untouched by the world. Addresses depression, lack of self-worth, and searching for joy." },
+      { "id": 3, "name": "Test of Self-Realization", "summary": "Ashtavakra warns against greed and sensory attachments after receiving knowledge. Addresses self-discipline, greed, and moral lapses." },
+      { "id": 4, "name": "Glory of Self-Realization", "summary": "Praise of the sage who abides in the Self without expectation. Addresses seeking validation, performance anxiety, and ego control." },
+      { "id": 5, "name": "Four Ways to Dissolution", "summary": "Methods of dissolving the ego and identifying with pure space. Addresses overthinking and letting go of control." },
+      { "id": 6, "name": "The Self Higher than Creation", "summary": "Understanding that the universe exists within the Self, not vice versa. Addresses existential dread and loneliness." },
+      { "id": 7, "name": "The Self is the Infinite Ocean", "summary": "Seeing oneself as the infinite ocean in which the waves of the world arise. Addresses anxiety, panic attacks, and fear of change." },
+      { "id": 8, "name": "Bondage and Liberation", "summary": "Definition of bondage (desiring objects) vs liberation (letting go of desire). Addresses addictions, attachment, and unhealthy habits." },
+      { "id": 9, "name": "Detachment", "summary": "Rising above dualities like good/bad, success/failure. Addresses stress about results, exam failure, and rejection." },
+      { "id": 10, "name": "Quietude", "summary": "Desisting from seeking wealth, pleasure, and action. Addresses burn out, career exhaustion, and mid-life crisis." },
+      { "id": 11, "name": "Wisdom", "summary": "Understanding that birth, death, and karma happen naturally, allowing the mind to rest. Addresses fear of death, bereavement, and grief." },
+      { "id": 12, "name": "Abiding in the Self", "summary": "Resting in one's own natural state without practicing meditation or ritual. Addresses spiritual dry spells and restlessness." },
+      { "id": 13, "name": "Happiness", "summary": "Experiencing the natural happiness of doing nothing and seeking nothing. Addresses chronic stress, exhaustion, and worry." },
+      { "id": 14, "name": "Peace", "summary": "The quietness of a mind that has cooled down all desires. Addresses anger, emotional outbursts, and mental turbulence." },
+      { "id": 15, "name": "Knowledge of the Self", "summary": "Ashtavakra outlines the direct instructions on the nature of Brahman. Addresses seeking truth and intellectual confusion." },
+      { "id": 16, "name": "Special Instructions", "summary": "Forgetting bookish learning to realize the Self through direct experience. Addresses excessive studying, intellectual ego, and confusion." },
+      { "id": 17, "name": "The True Knower", "summary": "Traits of the liberated sage who lives in the world like a child. Addresses social anxiety, peer pressure, and feeling out of place." },
+      { "id": 18, "name": "Peace and Quietude", "summary": "Deepest Advaita meditation on the voidness of all phenomena. Addresses ultimate spiritual liberation, void, and deep meditation." },
+      { "id": 19, "name": "Repose in the Self", "summary": "Janaka describes his state of resting in his own glory. Addresses confidence issues and self-doubt." },
+      { "id": 20, "name": "Complete Liberation", "summary": "The final state where there is neither bondage nor liberation, only the Self. Addresses seeking ultimate freedom." }
+    ]
+  },
+  {
+    "bookId": "avadhuta_gita",
+    "bookName": "Avadhuta Gita",
+    "description": "Song of the Avadhuta (Dattatreya) on absolute non-duality and formless reality.",
+    "chapters": [
+      { "id": 1, "name": "The Nature of the Self", "summary": "Dattatreya describes the all-pervading Self which is free from division, space, time, and modifications. Addresses feeling disconnected, fear of isolation, and existential anxiety." },
+      { "id": 2, "name": "The Self Beyond Division", "summary": "Explains why the Self cannot be divided or defined by scriptures. Addresses confusion about religions, sects, and spiritual paths." },
+      { "id": 3, "name": "Immortal and Formless Self", "summary": "The Self is ever pure, immortal, and untouched by physical changes. Addresses body image issues, fear of aging, and physical sickness." },
+      { "id": 4, "name": "Realization Without Attributes", "summary": "Realizing the Self without attributes (Nirguna) and beyond mental concepts. Addresses overthinking, mind chatter, and mental noise." },
+      { "id": 5, "name": "Equal Vision", "summary": "Viewing all circumstances, people, and events with equal vision (Samatvam). Addresses sibling rivalry, relationship conflicts, jealousy, and envy." },
+      { "id": 6, "name": "Beyond Mind and Speech", "summary": "Realizing the reality which cannot be described in words. Addresses communication breakdown, feeling misunderstood, and silence." },
+      { "id": 7, "name": "Traits of the Avadhuta", "summary": "Description of the free, wanderer sage who lives without rules. Addresses feeling restricted by society, social pressure, and rule compliance stress." },
+      { "id": 8, "name": "Absolute Truth", "summary": "Final statements on the absolute truth of non-duality. Addresses seeking ultimate clarity and truth." }
+    ]
+  },
+  {
+    "bookId": "katha_upanishad",
+    "bookName": "Katha Upanishad",
+    "description": "Dialogue between young seeker Nachiketa and Yama (Lord of Death) on immortality.",
+    "chapters": [
+      { "id": 1, "name": "Nachiketa's Journey & Boons", "summary": "Nachiketa travels to Death's abode and receives three boons, seeking to know what happens to a person after death. Addresses fear of death, mortality, afterlife, and grief over deceased loved ones." },
+      { "id": 2, "name": "Good vs Pleasant Choice", "summary": "Yama explains the distinction between Shreya (the good/spiritual path) and Preya (the pleasant/sensual path). Addresses temptation, short-term pleasure vs long-term success, habits, and self-control." },
+      { "id": 3, "name": "The Chariot Metaphor", "summary": "Metaphor of the chariot: the body is the chariot, intellect is the driver, mind is the reins, senses are the horses, and the Self is the passenger. Addresses self-discipline, focus, overthinking, and study habits." },
+      { "id": 4, "name": "Inner Self vs Outward Senses", "summary": "How the Creator made the senses turn outward, but the wise man turns them inward to see the Soul. Addresses sensory distractions, focus issues, and screen addiction." },
+      { "id": 5, "name": "The City of Eleven Gates", "summary": "The soul residing within the physical body and its independence from the body. Addresses health anxiety, sickness, and separating identity from the physical body." },
+      { "id": 6, "name": "The Tree of Samsara & Yoga", "summary": "The cosmic tree of creation and the practice of Yoga to still the senses and realize Brahman. Addresses spiritual practice, focus, and ultimate peace." }
+    ]
+  },
+  {
+    "bookId": "mundaka_upanishad",
+    "bookName": "Mundaka Upanishad",
+    "description": "Details the division of lower and higher knowledge and the metaphor of two birds.",
+    "chapters": [
+      { "id": 1, "name": "Lower vs Higher Knowledge", "summary": "Distinguishing between ritualistic knowledge (Apara Vidya) and knowledge of the imperishable Brahman (Para Vidya). Addresses seeking true wisdom, academic stress, and religious confusion." },
+      { "id": 2, "name": "The Source of Creation", "summary": "Brahman as the origin of all elements, and the bow-and-arrow meditation using OM. Addresses focus, target achievement, study concentration, and meditation practice." },
+      { "id": 3, "name": "Two Birds & Truth Triumphs", "summary": "The famous metaphor of two birds on a single tree (ego vs witness) and the declaration 'Satyameva Jayate' (Truth alone triumphs). Addresses ego issues, witness consciousness, mindfulness, honesty, and integrity in exams." }
+    ]
+  },
+  {
+    "bookId": "shvetashvatara_upanishad",
+    "bookName": "Shvetashvatara Upanishad",
+    "description": "Devotional Upanishad linking Rudra (Shiva) to the non-dual Self and meditation.",
+    "chapters": [
+      { "id": 1, "name": "Primal Cause & Maya", "summary": "Inquires into the source of the universe and explains God's power (Maya) as the cause. Addresses feeling lost, questioning the universe, and spiritual seeking." },
+      { "id": 2, "name": "Practice of Meditation", "summary": "Details the posture, breath control, and signs of progress in meditation and Yoga. Addresses meditation posture, breath control, stress relief, and physical wellness." },
+      { "id": 3, "name": "The Cosmic Person", "summary": "Praise of Rudra (Shiva) as the all-pervading Lord residing in the heart. Addresses fear, seeking divine protection, and devotion." },
+      { "id": 4, "name": "God the Magician", "summary": "Describing the universe as God's magic play and finding freedom by knowing the Magician. Addresses feeling manipulated by circumstances, and seeking freedom." },
+      { "id": 5, "name": "Individual Soul vs Brahman", "summary": "The tiny individual soul and its potential to expand to infinite Brahman. Addresses low self-esteem, feeling insignificant, and self-doubt." },
+      { "id": 6, "name": "Path of Surrender", "summary": "Finding refuge and surrendering to the divine light of wisdom. Addresses crisis management, total surrender, and seeking mental peace." }
+    ]
+  },
+  {
+    "bookId": "yaksha_prashna",
+    "bookName": "Yaksha Prashna",
+    "description": "Dialogue of ethical and moral questions from the Mahabharata.",
+    "chapters": [
+      { "id": 1, "name": "Yaksha's Questions to Yudhishthira", "summary": "Yudhishthira answers 125 questions regarding: What is the greatest wonder? Who is happy? How to find true dharma? Addresses moral dilemmas, ethical choices, exam prep, family duty, handling death of brothers, and wisdom in crisis." },
+      { "id": 2, "name": "Yama's Revelation & Boons", "summary": "The Yaksha reveals himself as Yama (the Lord of Justice and Yudhishthira's father), praises Yudhishthira's righteousness, restores his brothers' lives, and grants them boons for their upcoming exile. Addresses overcoming death, divine grace, trials of life, and spiritual rewards." }
+    ]
+  },
+  {
+    "bookId": "vidura_niti",
+    "bookName": "Vidura Niti",
+    "description": "Dialogue from the Mahabharata on ethics, leadership, and statecraft.",
+    "chapters": [
+      { "id": 1, "name": "Wise Man vs Fool", "summary": "Qualities of a wise person compared to an ignorant person. Addresses ego, wisdom, self-assessment, and personal growth." },
+      { "id": 2, "name": "Statecraft & Strategy", "summary": "Handling difficult colleagues, managing enemies, and dealing with authority. Addresses work conflicts, office politics, leadership, and negotiations." },
+      { "id": 3, "name": "Trust & Speech", "summary": "The power of speech, keeping secrets, and handling betrayal. Addresses trust issues, relationship betrayal, gossip, and communication." },
+      { "id": 4, "name": "Self-Control & Patience", "summary": "Importance of patience, anger management, and moderation in life. Addresses anger issues, patience, and impulse control." },
+      { "id": 5, "name": "Strength in Crisis", "summary": "Using righteousness (Dharma) as your armor in times of distress. Addresses coping with loss, family crisis, and ethical pressure." },
+      { "id": 6, "name": "Mental Peace", "summary": "Overcoming the toxic forces of pride, greed, and lust. Addresses greed, ego, addiction, and mental stability." },
+      { "id": 7, "name": "Family & Relatives Duties", "summary": "The duties of brothers, cousins, and family members. Addresses brother conflicts, family disputes, sibling rivalry, and inheritance stress." },
+      { "id": 8, "name": "Mortality & Death", "summary": "The transient nature of power, wealth, and life. Addresses mid-life crisis, material loss, and coping with bereavement." }
+    ]
+  },
+  {
+    "bookId": "uddhava_gita",
+    "bookName": "Uddhava Gita",
+    "description": "Krishna's final teachings on devotion and detachment in the Bhagavata Purana.",
+    "chapters": [
+      { "id": 1, "name": "Krishna's Final Teachings", "summary": "Krishna teaches Uddhava about witness consciousness, detachment from family/objects, and devotion (Bhakti). Addresses relationship endings, dealing with grief, letting go of attachments, and mental calm." }
+    ]
+  },
+  {
+    "bookId": "vivekachudamani",
+    "bookName": "Vivekachudamani",
+    "description": "Crest-jewel of discrimination between real and unreal by Adi Shankara.",
+    "chapters": [
+      { "id": 1, "name": "Discrimination of Real & Unreal", "summary": "Sanskrit verses guiding the seeker to separate the body/mind from the eternal Atman (Self). Addresses overthinking, identity crisis, existential confusion, and search for deep peace." }
+    ]
+  },
+  {
+    "bookId": "ramayana",
+    "bookName": "Valmiki Ramayana",
+    "description": "The epic narrative of Lord Rama, illustrating dharma, righteousness, devotion, and the victory of good over evil.",
+    "chapters": [
+      { "id": 1, "name": "Bala Kanda", "summary": "Rama's divine birth, childhood, protection of Sage Vishwamitra's rituals from demons, breaking of Shiva's bow, and marriage to Sita. Addresses youth, childhood, education, overcoming early obstacles, and marriage." },
+      { "id": 2, "name": "Ayodhya Kanda", "summary": "Preparations for Rama's coronation, Kaikeyi's request for Rama's exile, Dasaratha's grief and death, Rama's exile to the forest with Sita and Lakshmana, and Bharata's devotion. Addresses family conflicts, parent-child duty, handling sudden life changes, exile, sibling loyalty, and grief." },
+      { "id": 3, "name": "Aranya Kanda", "summary": "Forest life of Rama, Sita, and Lakshmana, slaying of demons, Surpanakha's mutilation, and the abduction of Sita by Ravana. Addresses survival, dealing with loss, abduction, forest environments, and distress." },
+      { "id": 4, "name": "Kishkindha Kanda", "summary": "Rama's alliance with Sugriva and Hanuman, slaying of Vali, and mobilization of the Vanara search parties for Sita. Addresses friendship, teamwork, locating lost objects, and building alliances." },
+      { "id": 5, "name": "Sundara Kanda", "summary": "Hanuman's heroic leap to Lanka, locating Sita in the Ashoka Vatika, conveying Rama's message, burning of Lanka, and returning with news. Addresses courage, devotion, hope, crossing obstacles, and faith in difficult times." },
+      { "id": 6, "name": "Yuddha Kanda", "summary": "Construction of Ram Setu, the war between Rama and Ravana's forces, slaying of Ravana, Sita's fire ordeal, and the return to Ayodhya for Rama's coronation. Addresses battles, fighting evil, leadership in crisis, victory, and overcoming colossal obstacles." },
+      { "id": 7, "name": "Uttara Kanda", "summary": "Rama's reign in Ayodhya, banishment of Sita, birth of Luv and Kush, Sita's final return to Mother Earth, and Rama's ascension. Addresses handling public opinion, duties of a ruler, parent-child meetings, final goodbyes, and destiny." }
+    ]
+  }
+]

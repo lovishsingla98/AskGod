@@ -1,0 +1,21 @@
+{
+  "bookId": "vivekachudamani",
+  "bookName": "Vivekachudamani",
+  "total_verses": 2,
+  "verses": [
+    {
+      "chapter": 1,
+      "verse": 2,
+      "sanskrit": "दुर्लभं त्रयमेवैतद्देवानुग्रहहेतुकम्। मनुष्यत्वं मुमुक्षुत्वं महापुरुषसंश्रयः॥१.२॥",
+      "english": "1.2 Three things are indeed rare and are due to the grace of God: a human birth, the longing for liberation, and the protective association of holy sages.",
+      "hindi": "1.2 तीन चीजें दुर्लभ हैं जो ईश्वर की कृपा से ही मिलती हैं: मनुष्य जन्म, मोक्ष की तीव्र इच्छा, और महापुरुषों का सानिध्य।"
+    },
+    {
+      "chapter": 1,
+      "verse": 20,
+      "sanskrit": "ब्रह्म सत्यं जगन्मिथ्येत्येवंरूपो विनिश्चयः। सोऽयं नित्यानित्यवस्तुविवेकः समुदाहृतः॥१.२०॥",
+      "english": "1.20 The firm conviction that Brahman (the Absolute) is real and the universe is transient is called the discrimination between the eternal and the ephemeral.",
+      "hindi": "1.20 यह दृढ़ निश्चय कि केवल ब्रह्म ही सत्य है और यह संसार परिवर्तनशील (मिथ्या) है, नित्यानित्य वस्तु का विवेक कहलाता है।"
+    }
+  ]
+}
