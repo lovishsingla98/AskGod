@@ -232,12 +232,18 @@ INSTRUCTIONS:
       bookId: stage1.bookId,
       chapter: stage1.chapter,
       verse: stage2.verse,
-      routingReason: stage2.routingReason
+      routingReason: stage2.routingReason,
+      isLocal: false
     };
 
   } catch (error) {
     console.warn('Client-side Gemini routing failed. Falling back to local keyword matcher...', error.message);
-    return routeLocally(question, summaries);
+    const localRoute = routeLocally(question, summaries);
+    return {
+      ...localRoute,
+      isLocal: true,
+      errorMsg: error.message
+    };
   }
 }
 

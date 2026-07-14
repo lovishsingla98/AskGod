@@ -112,7 +112,9 @@ function App() {
           translation: v.english || v.english_alt || '',
           hindi: v.hindi || ''
         })),
-        routingReason: route.routingReason
+        routingReason: route.routingReason,
+        isLocal: route.isLocal,
+        errorMsg: route.errorMsg
       };
 
       if (getStoredApiKey()) {
@@ -551,6 +553,11 @@ function App() {
                     <div className="routing-reason-overlay">
                       <h4 className="section-title-reason">Selection Context</h4>
                       <p className="guidance-text-reason">💡 {result?.routingReason}</p>
+                      {result?.isLocal && (
+                        <div className="local-routing-warning">
+                          ⚠️ AI routing failed: {result.errorMsg || 'Quota Limit Exceeded'}. Running in offline keyword mode.
+                        </div>
+                      )}
                     </div>
 
                     {/* Language Selection Tabs for Translation */}
