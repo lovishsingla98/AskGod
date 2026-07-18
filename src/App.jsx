@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import {
-  getStoredApiKey,
-  setStoredApiKey,
   fetchSummaries,
-  fetchBookEbook,
+  fetchChapter,
   routeQuery,
-  translateVersesToHindi
 } from './services/scriptureEngine';
 
 const QUICK_TAGS = [
@@ -16,8 +13,6 @@ const QUICK_TAGS = [
   { label: 'Purpose of Life 🌌', query: 'What is the true purpose of human life and existence?' },
   { label: 'Dealing with Grief 🌅', query: 'How do I deal with grief, loss, and the death of loved ones?' }
 ];
-
-const POPULAR_SEARCHES = ['Karma', 'Dharma', 'Meditation', 'Moksha'];
 
 function App() {
   const [question, setQuestion] = useState('');
@@ -34,11 +29,6 @@ function App() {
   // Navigation views: 'home' | 'scriptures'
   const [currentView, setCurrentView] = useState('home');
   const [libraryBooks, setLibraryBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-
-  // Settings Modal States for Gemini API Key
-  const [showSettings, setShowSettings] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState(getStoredApiKey());
 
   // References for synchronized scrolling
   const leftRef = useRef(null);
@@ -90,40 +80,31 @@ function App() {
         setLibraryBooks(summaries);
       }
 
-      const route = await routeQuery(activeQuery, summaries);
-      const ebook = await fetchBookEbook(route.bookId);
-      const chapterVerses = ebook.verses.filter(v => Number(v.chapter) === Number(route.chapter));
+      const route = await routeQuery(activeQuery);
+      const chapterData = route.chapter;
+      const chapterVerses = chapterData.verses;
       
       if (chapterVerses.length === 0) {
-        throw new Error(`No verses found in chapter ${route.chapter} of ${route.bookId}`);
+        throw new Error(`No verses found in chapter ${route.chapterId} of ${route.bookId}`);
       }
 
-      const bookName = ebook.bookName || route.bookId;
-      const targetVerseNum = route.verse || 1;
+      const bookName = chapterData.bookName || route.bookId;
 
       const initialResult = {
         bookId: route.bookId,
         bookName,
-        chapter: `Chapter ${route.chapter}`,
-        targetVerse: Number(targetVerseNum),
+        chapter: chapterData.parent ? `${chapterData.parent} — ${chapterData.title}` : chapterData.title,
+        targetVerseId: route.verseId,
         verses: chapterVerses.map(v => ({
-          verse: v.verse,
+          id: v.id,
+          verse: v.number,
+          citation: v.citation,
           sanskrit: v.sanskrit,
-          translation: v.english || v.english_alt || '',
+          translation: v.translation,
           hindi: v.hindi || ''
         })),
         routingReason: route.routingReason,
-        isLocal: route.isLocal,
-        errorMsg: route.errorMsg
       };
-
-      if (getStoredApiKey()) {
-        try {
-          await translateVersesToHindi(initialResult.verses, targetVerseNum, bookName, route.chapter);
-        } catch (transErr) {
-          console.warn("Hindi translation failed:", transErr.message);
-        }
-      }
 
       setResult(initialResult);
       setBookState('closed');
@@ -138,46 +119,40 @@ function App() {
     }
   };
 
-  const handleOpenChapter = async (bookId, chapterNum) => {
+  const handleOpenChapter = async (bookId, chapterId) => {
     setLoading(true);
     setError(null);
     setResult(null);
     setBookState(null);
     setShowScrollIndicator(true);
     setTranslationLang('english');
-    setSearchedQuery(`Reading ${bookId} Chapter ${chapterNum}`);
+    setSearchedQuery(`Reading ${bookId} — ${chapterId}`);
 
     try {
-      const ebook = await fetchBookEbook(bookId);
-      const chapterVerses = ebook.verses.filter(v => Number(v.chapter) === Number(chapterNum));
+      const chapterData = await fetchChapter(bookId, chapterId);
+      const chapterVerses = chapterData.verses;
       
       if (chapterVerses.length === 0) {
-        throw new Error(`No verses found in chapter ${chapterNum} of ${bookId}`);
+        throw new Error(`No verses found in chapter ${chapterId} of ${bookId}`);
       }
 
-      const bookName = ebook.bookName || bookId;
+      const bookName = chapterData.bookName || bookId;
 
       const initialResult = {
         bookId,
         bookName,
-        chapter: `Chapter ${chapterNum}`,
-        targetVerse: 1,
+        chapter: chapterData.parent ? `${chapterData.parent} — ${chapterData.title}` : chapterData.title,
+        targetVerseId: chapterVerses[0].id,
         verses: chapterVerses.map(v => ({
-          verse: v.verse,
+          id: v.id,
+          verse: v.number,
+          citation: v.citation,
           sanskrit: v.sanskrit,
-          translation: v.english || v.english_alt || '',
+          translation: v.translation,
           hindi: v.hindi || ''
         })),
-        routingReason: `Reading ${bookName}, Chapter ${chapterNum} cover-to-cover.`
+        routingReason: `Reading ${bookName}, ${chapterData.title} cover-to-cover.`
       };
-
-      if (getStoredApiKey()) {
-        try {
-          await translateVersesToHindi(initialResult.verses, 1, bookName, chapterNum);
-        } catch (transErr) {
-          console.warn("Hindi translation failed:", transErr.message);
-        }
-      }
 
       setResult(initialResult);
       setBookState('closed');
@@ -191,30 +166,6 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleToggleLang = async (lang) => {
-    setTranslationLang(lang);
-    if (lang === 'hindi' && result) {
-      const targetVerse = result.targetVerse;
-      const targetMatch = result.verses.find(v => Number(v.verse) === Number(targetVerse));
-      if (targetMatch && (!targetMatch.hindi || targetMatch.hindi.trim() === '')) {
-        setLoading(true);
-        try {
-          await translateVersesToHindi(result.verses, targetVerse, result.bookName, result.chapter.replace('Chapter ', ''));
-          setResult({ ...result });
-        } catch (err) {
-          console.warn(err);
-        } finally {
-          setLoading(false);
-        }
-      }
-    }
-  };
-
-  const handleSaveSettings = () => {
-    setStoredApiKey(apiKeyInput);
-    setShowSettings(false);
   };
 
   // Run the multi-stage book animation when the result lands
@@ -340,13 +291,6 @@ function App() {
           >
             Scriptures
           </button>
-          <button 
-            className="settings-toggle-btn"
-            onClick={() => setShowSettings(true)}
-            title="Configure Gemini API Key"
-          >
-            ⚙️ Settings
-          </button>
         </nav>
       </header>
 
@@ -441,7 +385,7 @@ function App() {
                         <option value="" disabled>Choose a chapter...</option>
                         {book.chapters.map((ch) => (
                           <option key={ch.id} value={ch.id}>
-                            Chapter {ch.id}: {ch.name}
+                            {ch.parent ? `${ch.parent} — ` : ''}{ch.name}
                           </option>
                         ))}
                       </select>
@@ -527,13 +471,13 @@ function App() {
                     
                     <div className="scripture-verses-list">
                       {result?.verses?.map((v, idx) => {
-                        const isTarget = Number(v.verse) === Number(result.targetVerse);
+                        const isTarget = v.id === result.targetVerseId;
                         return (
                           <div 
                             key={idx} 
                             className={`verse-item-sanskrit ${isTarget ? 'target-verse-highlight' : ''}`}
                           >
-                            <span className="verse-label-number">|| {v.verse} ||</span>
+                            <span className="verse-label-number">|| {v.citation} ||</span>
                             <p className="sanskrit-text-flow">{v.sanskrit}</p>
                           </div>
                         );
@@ -553,11 +497,6 @@ function App() {
                     <div className="routing-reason-overlay">
                       <h4 className="section-title-reason">Selection Context</h4>
                       <p className="guidance-text-reason">💡 {result?.routingReason}</p>
-                      {result?.isLocal && (
-                        <div className="local-routing-warning">
-                          ⚠️ AI routing failed: {result.errorMsg || 'Quota Limit Exceeded'}. Running in offline keyword mode.
-                        </div>
-                      )}
                     </div>
 
                     {/* Language Selection Tabs for Translation */}
@@ -581,14 +520,14 @@ function App() {
                     
                     <div className="scripture-verses-list">
                       {result?.verses?.map((v, idx) => {
-                        const isTarget = Number(v.verse) === Number(result.targetVerse);
+                        const isTarget = v.id === result.targetVerseId;
                         const displayText = (translationLang === 'hindi' && v.hindi) ? v.hindi : v.translation;
                         return (
                           <div 
                             key={idx} 
                             className={`verse-item-english ${isTarget ? 'target-verse-highlight' : ''}`}
                           >
-                            <span className="verse-label-number-eng">{v.verse}.</span>
+                            <span className="verse-label-number-eng">{v.citation}.</span>
                             <p className="translation-text-flow">{displayText}</p>
                           </div>
                         );
@@ -614,38 +553,6 @@ function App() {
           </section>
         )}
       </main>
-
-      {/* Settings Modal */}
-      {showSettings && (
-        <div className="settings-modal-backdrop" onClick={() => setShowSettings(false)}>
-          <div className="settings-modal-card" onClick={(e) => e.stopPropagation()}>
-            <h3 className="settings-modal-title">⚙️ API Settings</h3>
-            <p className="settings-modal-subtitle">
-              Enter your Gemini API Key to enable dual-stage scripture routing and on-demand Hindi translations. If left blank, the app will run locally using word-overlap keyword matching.
-            </p>
-            
-            <div className="settings-input-wrapper">
-              <label className="settings-label">Gemini API Key</label>
-              <input
-                type="password"
-                className="settings-input"
-                value={apiKeyInput}
-                onChange={(e) => setApiKeyInput(e.target.value)}
-                placeholder="AIzaSy..."
-              />
-            </div>
-            
-            <div className="settings-modal-actions">
-              <button className="settings-action-btn cancel" onClick={() => setShowSettings(false)}>
-                Cancel
-              </button>
-              <button className="settings-action-btn save" onClick={handleSaveSettings}>
-                Save Key
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Serene Spiritual Footer */}
       <footer className="app-footer">

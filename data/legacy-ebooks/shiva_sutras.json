@@ -1,0 +1,266 @@
+{
+  "bookId": "shiva_sutras",
+  "bookName": "Shiva Sutras",
+  "total_verses": 37,
+  "verses": [
+    {
+      "chapter": 1,
+      "verse": 1,
+      "sanskrit": "चित्तिः आत्मा॥१॥",
+      "english": "Consciousness is the Self. (1)",
+      "hindi": "चित्ति ही आत्मा है॥१॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 2,
+      "sanskrit": "ज्ञानं कर्म च॥२॥",
+      "english": "Knowledge and action are also (the Self). (2)",
+      "hindi": "ज्ञान और कर्म भी (आत्मा) हैं॥२॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 3,
+      "sanskrit": "योनिश्वित्तस्य योनिं विद्धि॥३॥",
+      "english": "Know the source of consciousness to be the source (of all). (3)",
+      "hindi": "चेतना के स्रोत को (सबका) स्रोत जानो॥३॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 4,
+      "sanskrit": "नरभावान्मुक्तं परं महेश्वरम्॥४॥",
+      "english": "The transcendent Lord, liberated from human limitations. (4)",
+      "hindi": "परमेश्वर, जो मानवीय सीमाओं से मुक्त है॥४॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 5,
+      "sanskrit": "ज्ञानं उत्थितं ध्यानात्॥५॥",
+      "english": "Knowledge arises from meditation. (5)",
+      "hindi": "ध्यान से ज्ञान उत्पन्न होता है॥५॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 6,
+      "sanskrit": "मन्त्रो व्योम संहारः॥६॥",
+      "english": "The mantra is the dissolution of space. (6)",
+      "hindi": "मंत्र आकाश का संहार है॥६॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 7,
+      "sanskrit": "उच्छ्वासं धृतिः॥७॥",
+      "english": "Breathing is constancy. (7)",
+      "hindi": "श्वास स्थिरता है॥७॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 8,
+      "sanskrit": "प्राणश्चित्तस्य धृतिः॥८॥",
+      "english": "Prana is the constancy of consciousness. (8)",
+      "hindi": "प्राण चेतना की स्थिरता है॥८॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 9,
+      "sanskrit": "तत्त्वसंयोगे धृतिः॥९॥",
+      "english": "Constancy is the union of elements. (9)",
+      "hindi": "तत्त्वों का संयोग ही स्थिरता है॥९॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 10,
+      "sanskrit": "तत्त्वं भूयः॥१०॥",
+      "english": "The elements are again (the Self). (10)",
+      "hindi": "तत्त्व पुनः (आत्मा) हैं॥१०॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 11,
+      "sanskrit": "नागपुरं सम्प्रदानम्॥११॥",
+      "english": "Nāgapura is the gift. (11)",
+      "hindi": "नागपुर (शरीर) उपहार है॥११॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 12,
+      "sanskrit": "शक्तियोगोऽतिगमः॥१२॥",
+      "english": "Attainment through the union of energies. (12)",
+      "hindi": "शक्तियों के मिलन से प्राप्ति॥१२॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 13,
+      "sanskrit": "अणुं च यावत्॥१३॥",
+      "english": "And the atom, as far as. (13)",
+      "hindi": "और अणु (सूक्ष्म), जहाँ तक संभव हो॥१३॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 14,
+      "sanskrit": "अणुं च सर्वगतं च॥१४॥",
+      "english": "And the atom, and the all-pervading. (14)",
+      "hindi": "और अणु, और सर्वव्यापी॥१४॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 15,
+      "sanskrit": "अत्रैव च सर्वम्॥१५॥",
+      "english": "And all is here. (15)",
+      "hindi": "और सब कुछ यहीं है॥१५॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 16,
+      "sanskrit": "रूपविभागेऽप्यपार्थिवम्॥१६॥",
+      "english": "Even in the separation of forms, it is non-material. (16)",
+      "hindi": "रूपों के विभाजन में भी यह अभौतिक है॥१६॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 17,
+      "sanskrit": "कलासर्जने लोपः॥१७॥",
+      "english": "In the creation of arts, there is disappearance. (17)",
+      "hindi": "कलाओं के निर्माण में विलोपन है॥१७॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 18,
+      "sanskrit": "कलाविकलं पूर्णम्॥१८॥",
+      "english": "The complete (is) without arts. (18)",
+      "hindi": "कलाओं से रहित ही पूर्ण है॥१८॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 19,
+      "sanskrit": "हृदये चित्तसङ्कल्पः॥१९॥",
+      "english": "In the heart is the resolve of the mind. (19)",
+      "hindi": "हृदय में चित्त का संकल्प है॥१९॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 20,
+      "sanskrit": "शक्त्यन्यं सर्वम्॥२०॥",
+      "english": "Everything is other than the divine energy. (20)",
+      "hindi": "दिव्य ऊर्जा के अतिरिक्त सब कुछ है॥२०॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 21,
+      "sanskrit": "शक्तितः सर्वं पुनः॥२१॥",
+      "english": "From the divine energy, everything is again. (21)",
+      "hindi": "दिव्य ऊर्जा से ही सब कुछ पुनः है॥२१॥"
+    },
+    {
+      "chapter": 1,
+      "verse": 22,
+      "sanskrit": "भैरवः सर्वम्॥२२॥",
+      "english": "Bhairava is all. (22)",
+      "hindi": "भैरव ही सब कुछ है॥२२॥"
+    },
+    {
+      "chapter": 2,
+      "verse": 1,
+      "sanskrit": "चैतन्यं मातृकामार्धं",
+      "english": "Consciousness is the mother, the source.",
+      "hindi": "चैतन्य ही मातृका है, जो स्रोत है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 2,
+      "sanskrit": "ज्ञानं बन्धः",
+      "english": "Knowledge is bondage.",
+      "hindi": "ज्ञान ही बंधन है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 3,
+      "sanskrit": "सर्वं सचेतनम्",
+      "english": "All is conscious.",
+      "hindi": "सब कुछ चेतन है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 4,
+      "sanskrit": "यत्र विश्वं विजृम्भते",
+      "english": "Where the universe expands.",
+      "hindi": "जहाँ विश्व फैलता है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 5,
+      "sanskrit": "संसारो भुवनं",
+      "english": "The cycle of birth and death is the world.",
+      "hindi": "संसार ही भुवन है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 6,
+      "sanskrit": "नादांते देहसंस्थितिः",
+      "english": "At the end of Nada (sound), the body is established.",
+      "hindi": "नाद के अंत में देह की स्थिति है।"
+    },
+    {
+      "chapter": 2,
+      "verse": 7,
+      "sanskrit": "उच्छ्वासानुसन्धानं",
+      "english": "Following the breath.",
+      "hindi": "श्वास का अनुसरण।"
+    },
+    {
+      "chapter": 2,
+      "verse": 8,
+      "sanskrit": "संबुद्धबुद्धं",
+      "english": "Awakening the awakened.",
+      "hindi": "जागृत का जागरण।"
+    },
+    {
+      "chapter": 2,
+      "verse": 9,
+      "sanskrit": "प्राणदेहे तत्त्वसंयोगः",
+      "english": "Union of elements in the vital body.",
+      "hindi": "प्राण देह में तत्वों का संयोग।"
+    },
+    {
+      "chapter": 2,
+      "verse": 10,
+      "sanskrit": "लोकप्रसिद्धं",
+      "english": "That which is known by the world.",
+      "hindi": "जो लोक में प्रसिद्ध है।"
+    },
+    {
+      "chapter": 3,
+      "verse": 1,
+      "sanskrit": "आत्मा चित्तम्॥१॥",
+      "english": "The individual self is the mind. (1)",
+      "hindi": "व्यक्तिगत आत्मा मन है॥१॥"
+    },
+    {
+      "chapter": 3,
+      "verse": 2,
+      "sanskrit": "ज्ञानं बन्धः॥२॥",
+      "english": "Relative knowledge is bondage. (2)",
+      "hindi": "सांसारिक ज्ञान ही बंधन है॥२॥"
+    },
+    {
+      "chapter": 3,
+      "verse": 3,
+      "sanskrit": "कलादीनां तत्त्वानां अविवेको माया॥३॥",
+      "english": "Lack of discrimination between elements like kala etc. is Maya. (3)",
+      "hindi": "कला आदि तत्त्वों में विवेक न होना ही माया है॥३॥"
+    },
+    {
+      "chapter": 3,
+      "verse": 4,
+      "sanskrit": "शरीरे संहारः कलानाम्॥४॥",
+      "english": "Dissolution of elements in the body. (4)",
+      "hindi": "शरीर में कलाओं का संहार होता है॥४॥"
+    },
+    {
+      "chapter": 3,
+      "verse": 5,
+      "sanskrit": "नाडी संहार भूत जय प्राणायाम प्रत्याहाराः॥५॥",
+      "english": "Dissolution of energy channels, mastery of elements, breath control and withdrawal. (5)",
+      "hindi": "नाड़ी संहार, भूत जय, प्राणायाम और प्रत्याहार (योग अंग हैं)॥५॥"
+    }
+  ]
+}

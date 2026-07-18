@@ -1,16 +1,49 @@
-# React + Vite
+# AskGod
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+AskGod routes a natural-language question to a source-backed passage from 15 Hindu scriptures, opens the complete reading chapter, and highlights the selected verse. It works fully offline with a deterministic verse-level ranker; a server-side Gemini reranker is optional.
 
-Currently, two official plugins are available:
+## Corpus
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The production corpus contains 15 books, 758 practical reading chapters, and 27,595 verses. Long source divisions are split at their real reading boundaries—for example, the Ramayana is Kanda → Sarga and the Mundaka Upanishad is Mundaka → Khanda. Every reading chapter has an overview plus multiple passage summaries, and every verse is represented in the search index.
 
-## React Compiler
+Original source downloads and repair inputs live in `data/raw`; source editions, translators, rights, URLs, and expected counts are pinned in `data/sources.json`. The generated artifacts are:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `public/data/catalog.json` — lightweight book and chapter catalog
+- `public/data/chapters/<book>/<chapter>.json` — independently loadable full chapters
+- `public/data/ebooks/<book>.json` — complete normalized ebooks
+- `public/data/search-index.json` — verse-level retrieval index
+- `public/data/summaries.json` — chapter and passage-level summaries
+- `public/data/attribution.json` — published provenance manifest
 
-## Expanding the Oxlint configuration
+## Local development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm install
+npm run corpus:check
+npm test
+npm run dev
+```
+
+Open `http://localhost:5173`.
+
+To reproduce refreshed source artifacts:
+
+```bash
+npm run corpus:download
+npm run corpus:build
+npm run corpus:check
+```
+
+The download step requires network access. Generated results are deterministic for the pinned source endpoints and fail closed when hierarchy or counts change.
+
+## Production deployment
+
+Build with `npm run build` and publish `dist`. The included `api/route.js` is compatible with Vercel Functions. Configure `GEMINI_API_KEY` only in the hosting provider’s server-side environment; never expose it through a `VITE_` variable. `GEMINI_MODEL` is optional and defaults to `gemini-2.5-flash`.
+
+If the function or model is unavailable, search continues locally. Model output is accepted only when it selects one of the source-backed candidates and an existing verse in the loaded chapter.
+
+## Quality gates
+
+`npm run corpus:check` verifies counts, hierarchy, summaries, non-empty Sanskrit and English, globally unique verse IDs, and complete search coverage. `npm test`, `npm run lint`, and `npm run build` are the remaining release gates.
+
+Translations remain attributed to their respective source editions. Review `public/data/attribution.json` before redistribution or commercial use, especially entries marked source-attributed or Creative Commons NonCommercial.
