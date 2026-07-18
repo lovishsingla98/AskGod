@@ -81,6 +81,23 @@ describe('Cloudflare semantic reranker boundary', () => {
     expect(await response.json()).toMatchObject({ ...selection, provider: 'openai' });
   });
 
+  it('asks the reranker to cover the complete concern instead of favoring famous verses', async () => {
+    const selection = { bookId: 'gita', chapterId: '2', verseId: 'gita:2:1', routingReason: 'It directly addresses the least-covered concern.' };
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({
+      output: [{ content: [{ type: 'output_text', text: JSON.stringify(selection) }] }]
+    }), { status: 200 }));
+
+    await onRequestPost({
+      request: request({ question: 'I fear time is running out and I will never succeed.', candidates: [candidate()] }),
+      env: { OPENAI_API_KEY: 'openai-secret', AI_RATE_LIMITER: rateLimiter }
+    });
+
+    const prompt = JSON.parse(fetchMock.mock.calls[0][1].body).input;
+    expect(prompt).toContain('distinct concerns');
+    expect(prompt).toContain('least-addressed concern');
+    expect(prompt).toContain('famous');
+  });
+
   it('falls back to Gemini when OpenAI is unavailable', async () => {
     const selection = { bookId: 'gita', chapterId: '2', verseId: 'gita:2:1', routingReason: 'It directly addresses effort.' };
     const fetchMock = vi.spyOn(globalThis, 'fetch')

@@ -40,9 +40,17 @@ describe('scripture retrieval', () => {
     const root = path.resolve(import.meta.dirname, '..');
     const production = JSON.parse(fs.readFileSync(path.join(root, 'public/data/search-index.json'), 'utf8')).documents;
     const question = "how to handle the stress and anxiety that time is going away from me and i'll never become successful?";
-    const winner = rankScriptureDocuments(question, production, 1)[0];
-    expect(['gita:2:47', 'gita:6:35', 'gita:6:40']).toContain(winner.verseId);
+    const ranked = rankScriptureDocuments(question, production, 120);
+    const winner = ranked[0];
+    expect(winner.verseId).toBe('gita:2:40');
+    expect(scriptureEngine.selectDiverseCandidates(ranked, 40).map(item => item.verseId)).toContain('gita:2:40');
     expect(winner.verseId).not.toBe('ramayana:6.63:41');
+  });
+
+  it('removes only an exact leading citation from rendered translations', () => {
+    expect(scriptureEngine.stripLeadingCitation('2.47 But thou hast only the right to work.', '2.47')).toBe('But thou hast only the right to work.');
+    expect(scriptureEngine.stripLeadingCitation('।।2.47।। कर्तव्य-कर्म करनेमें ही तेरा अधिकार है।', '2.47')).toBe('कर्तव्य-कर्म करनेमें ही तेरा अधिकार है।');
+    expect(scriptureEngine.stripLeadingCitation('Chapter 2.47 discusses action.', '2.47')).toBe('Chapter 2.47 discusses action.');
   });
 
   it('builds a broad candidate set without one chapter or book crowding it out', () => {

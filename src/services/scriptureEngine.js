@@ -40,7 +40,7 @@ export function rankScriptureDocuments(question, documents, limit = documents.le
     [/(?:fourth state|four states|turiya)/, 'mandukya_upanishad:1:7'],
     [/(?:family|relatives?|kinsmen).*(?:fight|against|hurt)|(?:fight|against).*(?:family|relatives?|kinsmen)/, 'gita:1:27'],
     [/(?:anxiety|anxious|fear|stress).*(?:future|mind|manage)|(?:manage|calm).*(?:anxiety|fear|stress)/, 'gita:2:56'],
-    [/(?:anxiety|anxious|stress|worry).*(?:time|future|success|successful|succeed|failure|late|behind)|(?:time|future|success|successful|succeed|failure|late|behind).*(?:anxiety|anxious|stress|worry)/, 'gita:2:47'],
+    [/(?:anxiety|anxious|stress|worry).*(?:time|future|success|successful|succeed|failure|late|behind)|(?:time|future|success|successful|succeed|failure|late|behind).*(?:anxiety|anxious|stress|worry)/, 'gita:2:40'],
     [/(?:handle|manage|calm|control).*(?:anxiety|anxious|stress|worry|mind)/, 'gita:6:35'],
     [/(?:never|fail|failure).*(?:success|successful|succeed|effort)|(?:effort).*(?:wasted|fail|failure)/, 'gita:6:40'],
     [/(?:death|dying).*(?:grief|sorrow|loss)|(?:grief|sorrow|loss).*(?:death|dying)/, 'gita:2:20']
@@ -113,6 +113,14 @@ export async function fetchSummaries() {
   }));
 }
 
+export function stripLeadingCitation(value, citation) {
+  const text = String(value || '');
+  const escapedCitation = String(citation || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (!escapedCitation) return text.trim();
+  const prefix = new RegExp(`^\\s*(?:।।\\s*${escapedCitation}\\s*।।|${escapedCitation}(?:\\.(?=\\s)|(?=\\s)))\\s*`, 'u');
+  return text.replace(prefix, '').trim();
+}
+
 export async function fetchChapter(bookId, chapterId, suppliedPath) {
   let chapterPath = suppliedPath;
   if (!chapterPath) {
@@ -122,7 +130,15 @@ export async function fetchChapter(bookId, chapterId, suppliedPath) {
   if (!chapterPath) throw new Error(`Unknown chapter ${bookId}/${chapterId}.`);
   const response = await fetch(`/${chapterPath}`);
   if (!response.ok) throw new Error(`Failed to load ${bookId}, chapter ${chapterId}.`);
-  return response.json();
+  const chapter = await response.json();
+  return {
+    ...chapter,
+    verses: chapter.verses.map(verse => ({
+      ...verse,
+      translation: stripLeadingCitation(verse.translation, verse.citation),
+      hindi: stripLeadingCitation(verse.hindi, verse.citation)
+    }))
+  };
 }
 
 async function fetchSearchIndex() {
