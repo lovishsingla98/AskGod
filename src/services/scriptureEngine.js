@@ -10,10 +10,15 @@ const EXPANSIONS = {
   sad: ['sorrow', 'grief'], purpose: ['self', 'truth', 'liberation'], god: ['lord', 'brahman', 'divine'], meditate: ['meditation', 'mind', 'yoga'],
   focus: ['concentration', 'mind', 'meditation'], anger: ['wrath', 'desire', 'mind'], attachment: ['desire', 'fruit'], conscious: ['consciousness', 'self'],
   consciousness: ['self', 'atman'], turiya: ['fourth', 'consciousness'], relatives: ['family', 'kinsmen', 'brothers'], family: ['kinsmen', 'relatives'],
-  wonder: ['marvel', 'astonishing'], witness: ['observer', 'looks', 'self'], truth: ['true', 'real'], death: ['immortal', 'immortality', 'dying']
+  wonder: ['marvel', 'astonishing'], witness: ['observer', 'looks', 'self'], truth: ['true', 'real'], death: ['immortal', 'immortality', 'dying'],
+  handle: ['manage', 'control', 'practice', 'mind'], stress: ['anxiety', 'fear', 'worry', 'mind'], time: ['future', 'change', 'transient'],
+  success: ['succeed', 'achievement', 'result', 'fruit', 'effort', 'work'], successful: ['success', 'succeed', 'result', 'effort', 'work'],
+  failure: ['fail', 'effort', 'result', 'work'], fail: ['failure', 'effort', 'result'], late: ['time', 'future', 'effort'], behind: ['time', 'future', 'effort'],
+  effort: ['work', 'action', 'practice'], future: ['time', 'fear', 'worry']
 };
 
 function stem(word) {
+  if (word.endsWith('ss')) return word;
   return word.replace(/(?:ing|edly|edly|ed|ies|es|s)$/i, match => match === 'ies' ? 'y' : '');
 }
 
@@ -35,21 +40,61 @@ export function rankScriptureDocuments(question, documents, limit = documents.le
     [/(?:fourth state|four states|turiya)/, 'mandukya_upanishad:1:7'],
     [/(?:family|relatives?|kinsmen).*(?:fight|against|hurt)|(?:fight|against).*(?:family|relatives?|kinsmen)/, 'gita:1:27'],
     [/(?:anxiety|anxious|fear|stress).*(?:future|mind|manage)|(?:manage|calm).*(?:anxiety|fear|stress)/, 'gita:2:56'],
+    [/(?:anxiety|anxious|stress|worry).*(?:time|future|success|successful|succeed|failure|late|behind)|(?:time|future|success|successful|succeed|failure|late|behind).*(?:anxiety|anxious|stress|worry)/, 'gita:2:47'],
+    [/(?:handle|manage|calm|control).*(?:anxiety|anxious|stress|worry|mind)/, 'gita:6:35'],
+    [/(?:never|fail|failure).*(?:success|successful|succeed|effort)|(?:effort).*(?:wasted|fail|failure)/, 'gita:6:40'],
     [/(?:death|dying).*(?:grief|sorrow|loss)|(?:grief|sorrow|loss).*(?:death|dying)/, 'gita:2:20']
   ];
   const normalizedQuestion = String(question).toLowerCase();
   return documents.map(document => {
     const title = document.title.toLowerCase();
-    const haystack = `${title} ${document.text}`.toLowerCase();
+    const translation = String(document.translation || document.text || '').toLowerCase();
+    const summary = String(document.summary || '').toLowerCase();
     let score = 0;
     for (const token of querySet) {
-      if (haystack.includes(token)) score += 1 + Math.min(token.length, 10) / 10;
-      if (title.includes(token)) score += 0.75;
+      if (translation.includes(token)) score += 3 + Math.min(token.length, 10) / 5;
+      if (summary.includes(token)) score += 0.45 + Math.min(token.length, 10) / 20;
+      if (title.includes(token)) score += 0.6;
     }
-    if (phrase.length > 8 && haystack.includes(phrase)) score += 8;
+    if (phrase.length > 8 && translation.includes(phrase)) score += 15;
+    if (phrase.length > 8 && summary.includes(phrase)) score += 2;
     for (const [pattern, verseId] of intentAnchors) if (pattern.test(normalizedQuestion) && document.verseId === verseId) score += 40;
     return { ...document, score };
   }).sort((a, b) => b.score - a.score || a.verseId.localeCompare(b.verseId)).slice(0, limit);
+}
+
+export function selectDiverseCandidates(ranked, limit = 40) {
+  const selected = [];
+  const selectedIds = new Set();
+  const chapterCounts = new Map();
+  const bookCounts = new Map();
+
+  const add = candidate => {
+    selected.push(candidate);
+    selectedIds.add(candidate.verseId);
+    const chapterKey = `${candidate.bookId}:${candidate.chapterId}`;
+    chapterCounts.set(chapterKey, (chapterCounts.get(chapterKey) || 0) + 1);
+    bookCounts.set(candidate.bookId, (bookCounts.get(candidate.bookId) || 0) + 1);
+  };
+
+  for (const candidate of ranked) {
+    const chapterKey = `${candidate.bookId}:${candidate.chapterId}`;
+    if ((chapterCounts.get(chapterKey) || 0) >= 3 || (bookCounts.get(candidate.bookId) || 0) >= 8) continue;
+    add(candidate);
+    if (selected.length === limit) return selected;
+  }
+  for (const candidate of ranked) {
+    const chapterKey = `${candidate.bookId}:${candidate.chapterId}`;
+    if (selectedIds.has(candidate.verseId) || (chapterCounts.get(chapterKey) || 0) >= 3) continue;
+    add(candidate);
+    if (selected.length === limit) return selected;
+  }
+  for (const candidate of ranked) {
+    if (selectedIds.has(candidate.verseId)) continue;
+    add(candidate);
+    if (selected.length === limit) return selected;
+  }
+  return selected;
 }
 
 export async function fetchCatalog() {
@@ -90,7 +135,8 @@ async function fetchSearchIndex() {
 
 export async function routeQuery(question) {
   const index = await fetchSearchIndex();
-  const candidates = rankScriptureDocuments(question, index.documents, 12).map(({ score, ...candidate }) => ({ ...candidate, score }));
+  const ranked = rankScriptureDocuments(question, index.documents, 120);
+  const candidates = selectDiverseCandidates(ranked, 40).map(({ score, ...candidate }) => ({ ...candidate, score }));
   if (!candidates.length) throw new Error('No scripture passage could be matched.');
   let route = candidates[0];
   try {
