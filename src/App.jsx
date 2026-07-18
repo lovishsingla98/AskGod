@@ -14,6 +14,14 @@ const QUICK_TAGS = [
   { label: 'Dealing with Grief 🌅', query: 'How do I deal with grief, loss, and the death of loved ones?' }
 ];
 
+const DEITY_BACKGROUNDS = [
+  '/assets/deities/krishna.webp',
+  '/assets/deities/shiva.webp',
+  '/assets/deities/rama.webp',
+  '/assets/deities/ganesha.webp',
+  '/assets/deities/durga.webp'
+];
+
 function App() {
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,6 +34,7 @@ function App() {
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [translationLang, setTranslationLang] = useState('english');
   const [mobileReaderLanguage, setMobileReaderLanguage] = useState('english');
+  const [deityBackgroundIndex, setDeityBackgroundIndex] = useState(0);
 
   // Navigation views: 'home' | 'scriptures'
   const [currentView, setCurrentView] = useState('home');
@@ -47,6 +56,14 @@ function App() {
     };
     fetchBooks();
   }, []);
+
+  useEffect(() => {
+    if (currentView !== 'home' || result || loading || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const rotation = window.setInterval(() => {
+      setDeityBackgroundIndex(index => (index + 1) % DEITY_BACKGROUNDS.length);
+    }, 10_000);
+    return () => window.clearInterval(rotation);
+  }, [currentView, result, loading]);
 
   const getBookCover = (bookName) => {
     const name = (bookName || '').toLowerCase();
@@ -273,6 +290,22 @@ function App() {
 
   return (
     <div className="app-container">
+      {currentView === 'home' && !result && !loading && (
+        <div className="deity-background" aria-hidden="true">
+          {DEITY_BACKGROUNDS.map((src, index) => (
+            <img
+              key={src}
+              className={`deity-background-image ${index === deityBackgroundIndex ? 'active' : ''}`}
+              src={src}
+              alt=""
+              loading={index === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          ))}
+          <div className="deity-background-veil" />
+        </div>
+      )}
+
       {/* Background glowing auras */}
       <div className="aura-glow aura-gold"></div>
       <div className="aura-glow aura-saffron"></div>
