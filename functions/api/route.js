@@ -73,7 +73,7 @@ export async function onRequestPost({ request, env }) {
   if (!validCandidates) return json({ error: 'Invalid candidate schema' }, 400);
 
   const allowed = new Set(candidates.map(item => `${item.bookId}|${item.chapterId}|${item.verseId}`));
-  const prompt = `Select the single passage that most directly and compassionately addresses the user's complete concern, not merely one overlapping word. Prefer practical contextual relevance. Use only the supplied candidates. Return bookId, chapterId, verseId, and a one-sentence routingReason.\n\nQuestion: ${question.trim()}\n\nCandidates:\n${candidates.map(({ score, ...item }) => JSON.stringify(item)).join('\n')}`;
+  const prompt = `Select the single passage that most directly and compassionately addresses the user's complete concern, not merely one overlapping word. Prefer practical contextual relevance. Use only the supplied candidates. Return bookId, chapterId, verseId, and a one-sentence routingReason.\n\nQuestion: ${question.trim()}\n\nCandidates:\n${candidates.map(item => JSON.stringify(item)).join('\n')}`;
   const providers = [];
   if (env.OPENAI_API_KEY) providers.push(() => rerankWithOpenAI({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }));
   if (env.GEMINI_API_KEY) providers.push(() => rerankWithGemini({ apiKey: env.GEMINI_API_KEY, model: env.GEMINI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }));

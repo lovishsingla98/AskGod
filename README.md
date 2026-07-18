@@ -38,9 +38,9 @@ The download step requires network access. Generated results are deterministic f
 
 ## Production deployment
 
-Build with `npm run build` and publish `dist` to Cloudflare Pages. The included `functions/api/route.js` is a Pages Function. Configure `GEMINI_API_KEY` only in Cloudflare’s server-side environment; never expose it through a `VITE_` variable. Bind a Cloudflare Rate Limiting binding named `AI_RATE_LIMITER`; the reranker stays disabled unless both controls exist. `GEMINI_MODEL` is optional and defaults to `gemini-2.5-flash`.
+Build with `npm run build` and publish `dist` to Cloudflare Pages. The included `functions/api/route.js` is a Pages Function. Configure model keys only in Cloudflare’s server-side environment; never expose them through a `VITE_` variable. When `OPENAI_API_KEY` is present, the reranker uses OpenAI first and defaults to `gpt-5.6-terra`; `OPENAI_MODEL` can override it. `GEMINI_API_KEY` remains a fallback and `GEMINI_MODEL` optionally overrides its `gemini-2.5-flash` default. Bind a Cloudflare Rate Limiting binding named `AI_RATE_LIMITER`; remote reranking stays disabled without that binding or at least one provider key.
 
-If the function or model is unavailable, search continues locally. Model output is accepted only when it selects one of the source-backed candidates and an existing verse in the loaded chapter.
+Every query is scored against the complete local verse index. The client sends a diverse set of up to 40 source-backed passages for semantic reranking instead of a narrow top-12 list. If the function or every configured model is unavailable, search continues with the deterministic local winner. Model output is accepted only when it selects one of the supplied candidates and an existing verse in the loaded chapter.
 
 ## Quality gates
 
