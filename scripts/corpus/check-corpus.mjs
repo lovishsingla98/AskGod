@@ -13,10 +13,13 @@ const allVerseIds = new Set();
 let chapterCount = 0;
 
 if (catalog.books.length !== 15) throw new Error(`Expected 15 books; found ${catalog.books.length}.`);
-for (const [filename, expectedHash] of Object.entries(snapshotHashes)) {
-  const content = await fs.readFile(path.join(snapshotDir, filename));
-  const actualHash = crypto.createHash('sha256').update(content).digest('hex');
-  if (actualHash !== expectedHash) throw new Error(`${filename}: immutable source snapshot hash mismatch.`);
+for (const directory of [snapshotDir, path.join(root, 'data/raw')]) {
+  const hashes = directory === snapshotDir ? snapshotHashes : JSON.parse(await fs.readFile(path.join(directory, 'SHA256SUMS.json'), 'utf8'));
+  for (const [filename, expectedHash] of Object.entries(hashes)) {
+    const content = await fs.readFile(path.join(directory, filename));
+    const actualHash = crypto.createHash('sha256').update(content).digest('hex');
+    if (actualHash !== expectedHash) throw new Error(`${filename}: immutable source snapshot hash mismatch.`);
+  }
 }
 for (const book of catalog.books) {
   const source = sourceById.get(book.id);

@@ -6,7 +6,7 @@ AskGod routes a natural-language question to a source-backed passage from 15 Hin
 
 The production corpus contains 15 books, 758 practical reading chapters, and 27,595 verses. Long source divisions are split at their real reading boundaries—for example, the Ramayana is Kanda → Sarga and the Mundaka Upanishad is Mundaka → Khanda. Every reading chapter has an overview plus multiple passage summaries, and every verse is represented in the search index.
 
-Original source downloads and repair inputs live in `data/raw`; source editions, translators, rights, URLs, and expected counts are pinned in `data/sources.json`. Complete pre-existing source snapshots are retained in `data/legacy-ebooks` with SHA-256 pins, and the corpus check also verifies representative canonical Sanskrit citations so silent source drift cannot ship. The generated artifacts are:
+Original source downloads and repair inputs live in `data/raw`; source editions, translators, rights, URLs, and expected counts are pinned in `data/sources.json`. Every consumed raw and pre-existing source snapshot is retained with a SHA-256 pin, and the corpus check also verifies representative canonical Sanskrit citations so silent source drift cannot ship. The generated artifacts are:
 
 - `public/data/catalog.json` — lightweight book and chapter catalog
 - `public/data/chapters/<book>/<chapter>.json` — independently loadable full chapters

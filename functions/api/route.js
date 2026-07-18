@@ -5,6 +5,35 @@ const json = (body, status = 200) => new Response(JSON.stringify(body), {
 
 const boundedString = (value, maximum) => typeof value === 'string' && value.trim().length > 0 && value.length <= maximum;
 
+async function readBoundedJson(request, maximumBytes) {
+  if (!request.headers.get('Content-Type')?.toLowerCase().startsWith('application/json')) throw new Error('CONTENT_TYPE');
+  if (!request.body) throw new Error('INVALID_JSON');
+  const reader = request.body.getReader();
+  const chunks = [];
+  let size = 0;
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > maximumBytes) {
+      await reader.cancel();
+      throw new Error('TOO_LARGE');
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(size);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  try {
+    return JSON.parse(new TextDecoder().decode(bytes));
+  } catch {
+    throw new Error('INVALID_JSON');
+  }
+}
+
 export async function onRequestPost({ request, env }) {
   const requestUrl = new URL(request.url);
   const origin = request.headers.get('Origin');
@@ -19,8 +48,10 @@ export async function onRequestPost({ request, env }) {
 
   let body;
   try {
-    body = await request.json();
-  } catch {
+    body = await readBoundedJson(request, 32_768);
+  } catch (error) {
+    if (error.message === 'TOO_LARGE') return json({ error: 'Request too large' }, 413);
+    if (error.message === 'CONTENT_TYPE') return json({ error: 'Content-Type must be application/json' }, 415);
     return json({ error: 'Invalid JSON' }, 400);
   }
   const question = body?.question;

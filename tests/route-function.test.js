@@ -24,4 +24,17 @@ describe('Cloudflare semantic reranker boundary', () => {
     const response = await onRequestPost({ request: request({ question: 'Help', candidates: [{ bookId: 'x'.repeat(81) }] }), env });
     expect(response.status).toBe(400);
   });
+
+  it('bounds streamed bodies and requires JSON content type', async () => {
+    const env = { GEMINI_API_KEY: 'server-secret', AI_RATE_LIMITER: { limit: async () => ({ success: true }) } };
+    const streamed = new Request('https://askgod.pages.dev/api/route', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://askgod.pages.dev' }, body: JSON.stringify({ question: 'x'.repeat(33_000), candidates: [] })
+    });
+    streamed.headers.delete('Content-Length');
+    expect((await onRequestPost({ request: streamed, env })).status).toBe(413);
+    const plainText = new Request('https://askgod.pages.dev/api/route', {
+      method: 'POST', headers: { 'Content-Type': 'text/plain', Origin: 'https://askgod.pages.dev' }, body: '{}'
+    });
+    expect((await onRequestPost({ request: plainText, env })).status).toBe(415);
+  });
 });
