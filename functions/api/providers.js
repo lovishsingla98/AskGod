@@ -12,7 +12,7 @@ const responseSchema = {
 
 const parseJson = value => JSON.parse(String(value || '').trim());
 
-export async function rerankWithOpenAI({ apiKey, model = 'gpt-5.6-terra', prompt, signal }) {
+export async function rerankWithOpenAI({ apiKey, model = 'gpt-5.4-nano', prompt, signal }) {
   const response = await fetch('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },

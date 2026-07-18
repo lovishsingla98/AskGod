@@ -23,7 +23,7 @@ The candidate count is a quality target, not a corpus-search limit: every indexe
 
 The Cloudflare Pages Function remains the only component allowed to call model providers.
 
-- If `OPENAI_API_KEY` exists, call the OpenAI Responses API and default to `gpt-5.6-terra`; allow `OPENAI_MODEL` to override it.
+- If `OPENAI_API_KEY` exists, call the OpenAI Responses API and default to `gpt-5.4-nano`; allow `OPENAI_MODEL` to override it.
 - Otherwise, if `GEMINI_API_KEY` exists, use the existing Gemini API and optional `GEMINI_MODEL` override.
 - Require the existing `AI_RATE_LIMITER` binding for either provider.
 - Ask the model to select exactly one supplied candidate and return `bookId`, `chapterId`, `verseId`, and a short `routingReason`.
@@ -50,7 +50,7 @@ The exact question about stress, time passing, and fear of never becoming succes
 Cloudflare production secrets and variables:
 
 - `OPENAI_API_KEY` — optional until the user adds it; preferred when present.
-- `OPENAI_MODEL` — optional, defaults to `gpt-5.6-terra`.
+- `OPENAI_MODEL` — optional, defaults to `gpt-5.4-nano`.
 - `GEMINI_API_KEY` — existing fallback provider secret.
 - `GEMINI_MODEL` — optional Gemini override.
 - `AI_RATE_LIMITER` — required binding for remote reranking.
@@ -67,4 +67,4 @@ The browser receives none of these secrets.
 
 ## Official OpenAI basis
 
-OpenAI's current model guidance recommends GPT-5.6 Terra as the balance of intelligence and cost and supports the Responses API. The adapter uses the server-side Responses endpoint and a strict, source-bound JSON contract: <https://developers.openai.com/api/docs/models>.
+OpenAI documents GPT-5.4 nano as a low-cost model optimized for ranking and structured outputs. The adapter uses the server-side Responses endpoint and a strict, source-bound JSON contract: <https://developers.openai.com/api/docs/models/gpt-5.4-nano>.

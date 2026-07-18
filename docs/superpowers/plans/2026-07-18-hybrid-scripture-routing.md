@@ -109,7 +109,7 @@ Expected: FAIL because OpenAI is unsupported and the current maximum is 12.
 
 - [ ] **Step 3: Implement provider adapters**
 
-Create `rerankWithOpenAI({ apiKey, model, prompt, signal })` using the Responses API with model default `gpt-5.6-terra`, low reasoning effort, and strict JSON-schema output. Create `rerankWithGemini(...)` by moving the existing Gemini request into the same module. Both return the parsed selection object.
+Create `rerankWithOpenAI({ apiKey, model, prompt, signal })` using the Responses API with model default `gpt-5.4-nano`, low reasoning effort, and strict JSON-schema output. Create `rerankWithGemini(...)` by moving the existing Gemini request into the same module. Both return the parsed selection object.
 
 - [ ] **Step 4: Update the Cloudflare boundary**
 

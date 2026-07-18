@@ -61,6 +61,7 @@ describe('Cloudflare semantic reranker boundary', () => {
     expect(response.status).toBe(200);
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock.mock.calls[0][0]).toBe('https://api.openai.com/v1/responses');
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).model).toBe('gpt-5.4-nano');
     expect(await response.json()).toMatchObject(selection);
   });
 
