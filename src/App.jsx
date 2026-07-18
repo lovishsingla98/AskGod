@@ -25,6 +25,7 @@ function App() {
   const [bookState, setBookState] = useState(null);
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const [translationLang, setTranslationLang] = useState('english');
+  const [mobileReaderLanguage, setMobileReaderLanguage] = useState('english');
 
   // Navigation views: 'home' | 'scriptures'
   const [currentView, setCurrentView] = useState('home');
@@ -71,6 +72,7 @@ function App() {
     setBookState(null);
     setShowScrollIndicator(true);
     setTranslationLang('english'); // Reset translation language for new searches
+    setMobileReaderLanguage('english');
     setSearchedQuery(activeQuery);
 
     try {
@@ -127,6 +129,7 @@ function App() {
     setBookState(null);
     setShowScrollIndicator(true);
     setTranslationLang('english');
+    setMobileReaderLanguage('english');
     setSearchedQuery(`Reading ${bookId} — ${chapterId}`);
 
     try {
@@ -437,8 +440,33 @@ function App() {
               </button>
             </div>
 
+            <div className="mobile-reader-language" role="group" aria-label="Chapter language">
+              <button
+                className={mobileReaderLanguage === 'sanskrit' ? 'active' : ''}
+                aria-pressed={mobileReaderLanguage === 'sanskrit'}
+                onClick={() => setMobileReaderLanguage('sanskrit')}
+              >
+                Sanskrit
+              </button>
+              <button
+                className={mobileReaderLanguage === 'english' ? 'active' : ''}
+                aria-pressed={mobileReaderLanguage === 'english'}
+                onClick={() => { setMobileReaderLanguage('english'); setTranslationLang('english'); }}
+              >
+                English
+              </button>
+              <button
+                className={mobileReaderLanguage === 'hindi' ? 'active' : ''}
+                aria-pressed={mobileReaderLanguage === 'hindi'}
+                disabled={!result?.verses?.some(v => v.hindi && v.hindi.trim() !== '')}
+                onClick={() => { setMobileReaderLanguage('hindi'); setTranslationLang('hindi'); }}
+              >
+                हिन्दी
+              </button>
+            </div>
+
             {/* The 3D Book Element */}
-            <div className={`book-viewport ${bookState}`}>
+            <div className={`book-viewport ${bookState} mobile-language-${mobileReaderLanguage}`}>
               <div className="book-3d">
                 
                 {/* Front Cover (swings left 180deg) */}
@@ -512,14 +540,14 @@ function App() {
                     <div className="translation-lang-tabs">
                       <button 
                         className={`lang-tab-btn ${translationLang === 'english' ? 'active' : ''}`}
-                        onClick={() => setTranslationLang('english')}
+                        onClick={() => { setTranslationLang('english'); setMobileReaderLanguage('english'); }}
                       >
                         English
                       </button>
                       <button 
                         className={`lang-tab-btn ${translationLang === 'hindi' ? 'active' : ''}`}
                         disabled={!result?.verses?.some(v => v.hindi && v.hindi.trim() !== '')}
-                        onClick={() => setTranslationLang('hindi')}
+                        onClick={() => { setTranslationLang('hindi'); setMobileReaderLanguage('hindi'); }}
                       >
                         हिन्दी
                       </button>

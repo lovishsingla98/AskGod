@@ -2,10 +2,13 @@ import { rerankWithGemini, rerankWithOpenAI } from './providers.js';
 
 const MAXIMUM_BODY_BYTES = 98_304;
 const MAXIMUM_CANDIDATES = 40;
+const FALLBACK_RATE_LIMIT = 12;
+const FALLBACK_RATE_WINDOW_MS = 60_000;
+const fallbackRateBuckets = new Map();
 
-const json = (body, status = 200) => new Response(JSON.stringify(body), {
+const json = (body, status = 200, headers = {}) => new Response(JSON.stringify(body), {
   status,
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }
+  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...headers }
 });
 
 const boundedString = (value, maximum) => typeof value === 'string' && value.trim().length > 0 && value.length <= maximum;
@@ -39,16 +42,33 @@ async function readBoundedJson(request, maximumBytes) {
   }
 }
 
+async function rateLimitRequest(rateLimiter, key) {
+  if (rateLimiter) return rateLimiter.limit({ key });
+
+  const now = Date.now();
+  const bucket = fallbackRateBuckets.get(key);
+  if (!bucket || now - bucket.startedAt >= FALLBACK_RATE_WINDOW_MS) {
+    fallbackRateBuckets.set(key, { startedAt: now, count: 1 });
+    return { success: true };
+  }
+  bucket.count += 1;
+  return { success: bucket.count <= FALLBACK_RATE_LIMIT };
+}
+
 export async function onRequestPost({ request, env }) {
   const requestUrl = new URL(request.url);
   const origin = request.headers.get('Origin');
   if (origin && origin !== requestUrl.origin) return json({ error: 'Origin not allowed' }, 403);
   const contentLength = Number(request.headers.get('Content-Length') || 0);
   if (contentLength > MAXIMUM_BODY_BYTES) return json({ error: 'Request too large' }, 413);
-  if ((!env.OPENAI_API_KEY && !env.GEMINI_API_KEY) || !env.AI_RATE_LIMITER) return json({ error: 'Semantic reranker is not configured' }, 503);
+  if (!env.OPENAI_API_KEY && !env.GEMINI_API_KEY) return json(
+    { error: 'Semantic reranker is not configured' },
+    503,
+    { 'X-AskGod-Reranker': 'unavailable' }
+  );
 
   const clientAddress = request.headers.get('CF-Connecting-IP') || 'unknown';
-  const rate = await env.AI_RATE_LIMITER.limit({ key: clientAddress });
+  const rate = await rateLimitRequest(env.AI_RATE_LIMITER, clientAddress);
   if (!rate.success) return json({ error: 'Rate limit exceeded' }, 429);
 
   let body;
@@ -75,22 +95,30 @@ export async function onRequestPost({ request, env }) {
   const allowed = new Set(candidates.map(item => `${item.bookId}|${item.chapterId}|${item.verseId}`));
   const prompt = `Select the single passage that most directly and compassionately addresses the user's complete concern, not merely one overlapping word. Prefer practical contextual relevance. Use only the supplied candidates. Return bookId, chapterId, verseId, and a one-sentence routingReason.\n\nQuestion: ${question.trim()}\n\nCandidates:\n${candidates.map(item => JSON.stringify(item)).join('\n')}`;
   const providers = [];
-  if (env.OPENAI_API_KEY) providers.push(() => rerankWithOpenAI({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }));
-  if (env.GEMINI_API_KEY) providers.push(() => rerankWithGemini({ apiKey: env.GEMINI_API_KEY, model: env.GEMINI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }));
+  if (env.OPENAI_API_KEY) providers.push({ name: 'openai', rerank: () => rerankWithOpenAI({ apiKey: env.OPENAI_API_KEY, model: env.OPENAI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }) });
+  if (env.GEMINI_API_KEY) providers.push({ name: 'gemini', rerank: () => rerankWithGemini({ apiKey: env.GEMINI_API_KEY, model: env.GEMINI_MODEL, prompt, signal: AbortSignal.timeout(12_000) }) });
   let invalidSelection = false;
-  for (const rerank of providers) {
+  for (const provider of providers) {
     try {
-      const selected = await rerank();
+      const selected = await provider.rerank();
       if (!allowed.has(`${selected.bookId}|${selected.chapterId}|${selected.verseId}`) || !boundedString(selected.routingReason, 400)) {
         invalidSelection = true;
         continue;
       }
-      return json({ bookId: selected.bookId, chapterId: selected.chapterId, verseId: selected.verseId, routingReason: selected.routingReason });
+      return json(
+        { bookId: selected.bookId, chapterId: selected.chapterId, verseId: selected.verseId, routingReason: selected.routingReason, provider: provider.name },
+        200,
+        { 'X-AskGod-Reranker': provider.name }
+      );
     } catch {
       // Try the next configured provider; the client retains a deterministic local fallback.
     }
   }
-  return json({ error: invalidSelection ? 'Invalid reranker selection' : 'Semantic reranker failed' }, invalidSelection ? 422 : 502);
+  return json(
+    { error: invalidSelection ? 'Invalid reranker selection' : 'Semantic reranker failed' },
+    invalidSelection ? 422 : 502,
+    { 'X-AskGod-Reranker': 'failed' }
+  );
 }
 
 export function onRequest() {
