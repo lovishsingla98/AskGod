@@ -12,6 +12,8 @@ describe('search discovery surface', () => {
     expect(html).toContain('<meta property="og:url" content="https://askgod.in/"');
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image"');
     expect(html).toContain('application/ld+json');
+    expect(html).toContain('"@type": "FAQPage"');
+    expect(html).toContain('How does AskGod choose a passage?');
   });
 
   it('publishes robots, llms, and sitemap discovery files', () => {

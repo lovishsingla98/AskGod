@@ -5,6 +5,7 @@ import {
   fetchChapter,
   routeQuery,
 } from './services/scriptureEngine';
+import DiscoveryContent from './components/DiscoveryContent';
 
 const QUICK_TAGS = [
   { label: 'Inner Peace 🕊️', query: 'How do I find deep inner peace and calm my mind?' },
@@ -391,6 +392,8 @@ function App() {
                 </div>
               </div>
             </section>
+
+            <DiscoveryContent />
           </div>
         )}
 

@@ -1747,3 +1747,98 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+.discovery-content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 920px);
+  margin: clamp(5rem, 10vw, 8rem) auto 2rem;
+  padding-top: clamp(3rem, 7vw, 5rem);
+  border-top: 1px solid rgba(224, 166, 71, 0.22);
+  color: rgba(255, 246, 229, 0.82);
+}
+
+.discovery-intro {
+  max-width: 680px;
+}
+
+.discovery-kicker {
+  margin: 0 0 0.75rem;
+  color: var(--saffron, #e7a13b);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.discovery-content h2 {
+  margin: 0 0 1rem;
+  color: #f7dfb2;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.45rem, 3.5vw, 2.1rem);
+}
+
+.discovery-content p {
+  line-height: 1.75;
+}
+
+.discovery-library-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #efb55a;
+  text-underline-offset: 0.3em;
+}
+
+.discovery-books {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.3rem;
+  margin: 2.25rem 0 3.5rem;
+  color: rgba(255, 235, 201, 0.7);
+  font-size: 0.9rem;
+}
+
+.discovery-books span::before {
+  content: '✦';
+  margin-right: 0.55rem;
+  color: rgba(239, 181, 90, 0.58);
+}
+
+.discovery-faq details {
+  border-top: 1px solid rgba(224, 166, 71, 0.17);
+}
+
+.discovery-faq details:last-child {
+  border-bottom: 1px solid rgba(224, 166, 71, 0.17);
+}
+
+.discovery-faq summary {
+  padding: 1.15rem 0;
+  color: #f4e1c1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.discovery-faq details p {
+  max-width: 720px;
+  margin: 0 0 1.35rem;
+  color: rgba(255, 246, 229, 0.72);
+}
+
+@media (max-width: 800px) {
+  .discovery-content {
+    margin-top: 4rem;
+    padding-inline: 0.25rem;
+  }
+
+  .discovery-books {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .discovery-books {
+    grid-template-columns: 1fr;
+  }
+}
