@@ -104,6 +104,7 @@ function App() {
           hindi: v.hindi || ''
         })),
         routingReason: route.routingReason,
+        attribution: chapterData.attribution
       };
 
       setResult(initialResult);
@@ -151,7 +152,8 @@ function App() {
           translation: v.translation,
           hindi: v.hindi || ''
         })),
-        routingReason: `Reading ${bookName}, ${chapterData.title} cover-to-cover.`
+        routingReason: `Reading ${bookName}, ${chapterData.title} cover-to-cover.`,
+        attribution: chapterData.attribution
       };
 
       setResult(initialResult);
@@ -497,6 +499,12 @@ function App() {
                     <div className="routing-reason-overlay">
                       <h4 className="section-title-reason">Selection Context</h4>
                       <p className="guidance-text-reason">💡 {result?.routingReason}</p>
+                      {result?.attribution && (
+                        <p className="source-attribution">
+                          Edition: {result.attribution.edition} · Translation: {result.attribution.translator} ·{' '}
+                          <a href={result.attribution.url} target="_blank" rel="noreferrer">Source</a>
+                        </p>
+                      )}
                     </div>
 
                     {/* Language Selection Tabs for Translation */}

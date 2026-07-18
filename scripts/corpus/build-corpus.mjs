@@ -16,10 +16,29 @@ const deva = value => Sanscript.t(clean(value).replace(/[$&%]/g, ' '), 'iast', '
 const clip = (value, length = 260) => clean(value).length > length ? `${clean(value).slice(0, length).replace(/\s+\S*$/, '')}…` : clean(value);
 const safeId = value => String(value).replace(/[^a-zA-Z0-9._-]/g, '-');
 
+function passageThemes(verses) {
+  const text = verses.map(verse => verse.translation).join(' ').toLowerCase();
+  const vocabulary = {
+    'action and duty': ['action', 'work', 'duty', 'karma'],
+    'self-knowledge': ['self', 'atman', 'soul', 'brahman'],
+    'devotion': ['devotion', 'worship', 'lord', 'god'],
+    'mind and meditation': ['mind', 'meditation', 'yoga', 'thought'],
+    'freedom from attachment': ['attachment', 'desire', 'renunciation', 'liberation'],
+    'virtue and right conduct': ['virtue', 'truth', 'dharma', 'righteous'],
+    'mortality and immortality': ['death', 'immortal', 'mortality', 'grief'],
+    'knowledge and discernment': ['knowledge', 'wisdom', 'learned', 'discern']
+  };
+  return Object.entries(vocabulary).filter(([, terms]) => terms.some(term => text.includes(term))).map(([theme]) => theme).slice(0, 3);
+}
+
 function sectionSummary(verses) {
-  const first = clip(verses[0]?.translation, 190);
-  const last = clip(verses.at(-1)?.translation, 150);
-  return first === last ? first : `This passage begins with “${first}” and develops toward “${last}”`;
+  const themes = passageThemes(verses);
+  const representatives = [verses[0], verses[Math.floor(verses.length / 2)], verses.at(-1)]
+    .filter((verse, index, array) => verse && array.findIndex(item => item.id === verse.id) === index)
+    .map(verse => clip(verse.translation, 145));
+  const themeLead = themes.length ? `Themes: ${themes.join(', ')}. ` : '';
+  if (representatives.length === 1) return `${themeLead}${representatives[0]}`;
+  return `${themeLead}The passage moves from ${representatives.map(text => `“${text}”`).join(' through ')}`;
 }
 
 function makeSections(verses, size) {
@@ -31,6 +50,7 @@ function makeSections(verses, size) {
       fromVerse: group[0].citation,
       toVerse: group.at(-1).citation,
       focusVerseId: group[Math.floor(group.length / 2)].id,
+      themes: passageThemes(group),
       summary: sectionSummary(group)
     });
   }
@@ -187,6 +207,7 @@ for (const source of sources.sources) {
       summary,
       sections,
       sourceId: source.id,
+      attribution: { edition: source.edition, translator: source.translator, url: source.url, rights: source.rights },
       verses: chapter.verses
     };
     const relativePath = `data/chapters/${source.id}/${safeId(chapter.id)}.json`;
@@ -203,7 +224,7 @@ for (const source of sources.sources) {
   if (chapters.length !== source.expectedChapters || actualVerses !== source.expectedVerses) {
     throw new Error(`${source.id}: expected ${source.expectedChapters}/${source.expectedVerses}, built ${chapters.length}/${actualVerses}`);
   }
-  catalog.books.push({ id: source.id, name: source.title, description: legacy.description || source.edition, sourceId: source.id, edition: source.edition, verseCount: actualVerses, chapters: chapterItems });
+  catalog.books.push({ id: source.id, name: source.title, description: legacy.description || source.edition, sourceId: source.id, edition: source.edition, translator: source.translator, sourceUrl: source.url, rights: source.rights, verseCount: actualVerses, chapters: chapterItems });
   summaries.push({ bookId: source.id, bookName: source.title, description: legacy.description || source.edition, chapters: summaryItems });
   await fs.writeFile(path.join(publishedEbookDir, `${source.id}.json`), JSON.stringify({
     schemaVersion: 2,

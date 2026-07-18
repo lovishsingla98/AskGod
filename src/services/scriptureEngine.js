@@ -30,10 +30,11 @@ export function rankScriptureDocuments(question, documents, limit = documents.le
   const phrase = String(question).toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
   const intentAnchors = [
     [/greatest wonder|what (?:is|can be) (?:more )?(?:wonderful|marvel)/, 'yaksha_prashna:313:104'],
-    [/(?:exam|work|action).*(?:result|outcome|fruit)|(?:result|outcome).*(?:exam|work|action)/, 'gita:2:47'],
+    [/(?:exam|work|career|job|duty|action).*(?:result|outcome|fruit|attitude|right)|(?:result|outcome|attitude|right).*(?:exam|work|career|job|duty|action)/, 'gita:2:47'],
     [/two birds?.*(?:tree|same)|(?:tree|same).*two birds?/, 'mundaka_upanishad:3.1:1'],
     [/(?:fourth state|four states|turiya)/, 'mandukya_upanishad:1:7'],
     [/(?:family|relatives?|kinsmen).*(?:fight|against|hurt)|(?:fight|against).*(?:family|relatives?|kinsmen)/, 'gita:1:27'],
+    [/(?:anxiety|anxious|fear|stress).*(?:future|mind|manage)|(?:manage|calm).*(?:anxiety|fear|stress)/, 'gita:2:56'],
     [/(?:death|dying).*(?:grief|sorrow|loss)|(?:grief|sorrow|loss).*(?:death|dying)/, 'gita:2:20']
   ];
   const normalizedQuestion = String(question).toLowerCase();

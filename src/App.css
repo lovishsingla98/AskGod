@@ -1370,4 +1370,14 @@
   text-align: left;
 }
 
+.source-attribution {
+  margin: 0.55rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(74, 49, 24, 0.76);
+}
 
+.source-attribution a {
+  color: #8a4f19;
+  font-weight: 700;
+}

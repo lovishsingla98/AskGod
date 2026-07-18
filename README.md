@@ -6,7 +6,7 @@ AskGod routes a natural-language question to a source-backed passage from 15 Hin
 
 The production corpus contains 15 books, 758 practical reading chapters, and 27,595 verses. Long source divisions are split at their real reading boundaries—for example, the Ramayana is Kanda → Sarga and the Mundaka Upanishad is Mundaka → Khanda. Every reading chapter has an overview plus multiple passage summaries, and every verse is represented in the search index.
 
-Original source downloads and repair inputs live in `data/raw`; source editions, translators, rights, URLs, and expected counts are pinned in `data/sources.json`. The generated artifacts are:
+Original source downloads and repair inputs live in `data/raw`; source editions, translators, rights, URLs, and expected counts are pinned in `data/sources.json`. Complete pre-existing source snapshots are retained in `data/legacy-ebooks` with SHA-256 pins, and the corpus check also verifies representative canonical Sanskrit citations so silent source drift cannot ship. The generated artifacts are:
 
 - `public/data/catalog.json` — lightweight book and chapter catalog
 - `public/data/chapters/<book>/<chapter>.json` — independently loadable full chapters
@@ -38,7 +38,7 @@ The download step requires network access. Generated results are deterministic f
 
 ## Production deployment
 
-Build with `npm run build` and publish `dist`. The included `api/route.js` is compatible with Vercel Functions. Configure `GEMINI_API_KEY` only in the hosting provider’s server-side environment; never expose it through a `VITE_` variable. `GEMINI_MODEL` is optional and defaults to `gemini-2.5-flash`.
+Build with `npm run build` and publish `dist` to Cloudflare Pages. The included `functions/api/route.js` is a Pages Function. Configure `GEMINI_API_KEY` only in Cloudflare’s server-side environment; never expose it through a `VITE_` variable. Bind a Cloudflare Rate Limiting binding named `AI_RATE_LIMITER`; the reranker stays disabled unless both controls exist. `GEMINI_MODEL` is optional and defaults to `gemini-2.5-flash`.
 
 If the function or model is unavailable, search continues locally. Model output is accepted only when it selects one of the source-backed candidates and an existing verse in the loaded chapter.
 
