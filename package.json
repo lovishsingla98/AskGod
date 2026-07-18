@@ -15,6 +15,8 @@
     "corpus:check": "node scripts/corpus/check-corpus.mjs"
   },
   "dependencies": {
+    "@posthog/react": "^1.10.3",
+    "posthog-js": "^1.404.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
