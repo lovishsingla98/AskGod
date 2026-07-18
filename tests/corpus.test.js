@@ -33,4 +33,14 @@ describe('normalized scripture corpus', () => {
     expect(validateRoute({ ...candidates[0] }, candidates, chapter)).toBe(true);
     expect(validateRoute({ bookId: 'gita', chapterId: '2', verseId: 'gita:2:99' }, candidates, chapter)).toBe(false);
   });
+
+  it('indexes exact verse text separately from surrounding section context', () => {
+    const documents = JSON.parse(fs.readFileSync(path.join(root, 'public/data/search-index.json'), 'utf8')).documents;
+    expect(documents.length).toBeGreaterThan(25_000);
+    for (const document of documents) {
+      expect(document.translation, document.verseId).toEqual(expect.any(String));
+      expect(document.translation.trim().length, document.verseId).toBeGreaterThan(0);
+      expect(document.summary, document.verseId).toEqual(expect.any(String));
+    }
+  });
 });

@@ -217,7 +217,15 @@ for (const source of sources.sources) {
     summaryItems.push({ id: chapter.id, name: chapter.title, parent: chapter.parent || '', summary, sections });
     for (const [verseIndex, verse] of chapter.verses.entries()) {
       const section = sections[Math.floor(verseIndex / sectionSize)];
-      searchDocuments.push({ bookId: source.id, chapterId: chapter.id, verseId: verse.id, citation: verse.citation, title: `${source.title} — ${chapter.title}`, text: `${section.summary} ${verse.translation}` });
+      searchDocuments.push({
+        bookId: source.id,
+        chapterId: chapter.id,
+        verseId: verse.id,
+        citation: verse.citation,
+        title: `${source.title} — ${chapter.title}`,
+        summary: section.summary,
+        translation: verse.translation
+      });
     }
   }
   const actualVerses = chapters.reduce((sum, chapter) => sum + chapter.verses.length, 0);
