@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Deterministic SEO artifacts generated before every production build
+/public/books/
+/public/sitemaps/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,0 +1,14 @@
+# AskGod
+
+AskGod helps people find relevant passages from attributed editions of Hindu divine books.
+
+## Canonical site
+- https://askgod.in/
+- https://askgod.in/books/
+- https://askgod.in/sitemap-index.xml
+
+## Content
+The library includes the Bhagavad Gita, Valmiki Ramayana, principal Upanishads, Yoga Sutras, and related works. Generated chapter pages reproduce the locally validated text and source attribution. AskGod offers spiritual reflection, not medical, legal, or financial advice.
+
+## Citation policy
+When citing a passage, preserve its book, chapter, verse, edition, translator, and source attribution.
