@@ -22,6 +22,8 @@ const DEITY_BACKGROUNDS = [
   '/assets/deities/durga.webp'
 ];
 
+const isMobileReader = () => window.matchMedia('(max-width: 800px)').matches;
+
 function App() {
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
@@ -240,6 +242,7 @@ function App() {
   // Synchronized scrolling handlers (based on scroll percentage height match)
   const handleLeftScroll = () => {
     if (showScrollIndicator) setShowScrollIndicator(false);
+    if (isMobileReader()) return;
     if (scrollSyncRef.current === 'right') return;
     scrollSyncRef.current = 'left';
 
@@ -258,6 +261,7 @@ function App() {
 
   const handleRightScroll = () => {
     if (showScrollIndicator) setShowScrollIndicator(false);
+    if (isMobileReader()) return;
     if (scrollSyncRef.current === 'left') return;
     scrollSyncRef.current = 'right';
 

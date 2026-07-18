@@ -1006,6 +1006,11 @@
   .inside-left .parchment-content,
   .inside-right .parchment-content {
     opacity: 1 !important;
+    height: auto;
+    min-height: 0;
+    overflow-y: visible;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
     padding: 1.5rem;
   }
 }
