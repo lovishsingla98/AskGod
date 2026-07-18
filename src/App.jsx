@@ -6,6 +6,7 @@ import {
   routeQuery,
 } from './services/scriptureEngine';
 import DiscoveryContent from './components/DiscoveryContent';
+import { captureProductEvent } from './services/analytics';
 
 const QUICK_TAGS = [
   { label: 'Inner Peace 🕊️', query: 'How do I find deep inner peace and calm my mind?' },
@@ -82,9 +83,11 @@ function App() {
     return '/assets/yoga_sutras_cover.jpg';
   };
 
-  const handleSearch = async (queryToSend) => {
+  const handleSearch = async (queryToSend, source = 'manual') => {
     const activeQuery = queryToSend || question;
     if (!activeQuery.trim()) return;
+
+    captureProductEvent('question_submitted', { input_length: activeQuery.trim().length, source });
 
     setLoading(true);
     setError(null);
@@ -114,6 +117,7 @@ function App() {
 
       const initialResult = {
         bookId: route.bookId,
+        chapterId: route.chapterId,
         bookName,
         chapter: chapterData.parent ? `${chapterData.parent} — ${chapterData.title}` : chapterData.title,
         targetVerseId: route.verseId,
@@ -131,8 +135,15 @@ function App() {
 
       setResult(initialResult);
       setBookState('closed');
+      captureProductEvent('guidance_received', {
+        book_id: route.bookId,
+        chapter_id: route.chapterId,
+        provider: route.provider || 'local',
+        has_hindi: chapterVerses.some(verse => Boolean(verse.hindi?.trim())),
+      });
     } catch (err) {
       console.error(err);
+      captureProductEvent('guidance_failed', { stage: 'routing', error_code: err?.name || 'routing_error' });
       setError({
         title: 'Connection / Query Failed',
         message: err.message || 'Could not resolve the query.'
@@ -164,6 +175,7 @@ function App() {
 
       const initialResult = {
         bookId,
+        chapterId,
         bookName,
         chapter: chapterData.parent ? `${chapterData.parent} — ${chapterData.title}` : chapterData.title,
         targetVerseId: chapterVerses[0].id,
@@ -182,6 +194,7 @@ function App() {
       setResult(initialResult);
       setBookState('closed');
       setCurrentView('home');
+      captureProductEvent('chapter_opened', { book_id: bookId, chapter_id: chapterId, source: 'library' });
     } catch (err) {
       console.error(err);
       setError({
@@ -289,7 +302,7 @@ function App() {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleSearch();
+      handleSearch(undefined, 'keyboard');
     }
   };
 
@@ -330,7 +343,10 @@ function App() {
           </button>
           <button 
             className={`nav-link-btn ${currentView === 'scriptures' ? 'active' : ''}`}
-            onClick={() => { setCurrentView('scriptures'); setResult(null); setBookState(null); }}
+            onClick={() => {
+              setCurrentView('scriptures'); setResult(null); setBookState(null);
+              captureProductEvent('library_viewed');
+            }}
           >
             Scriptures
           </button>
@@ -364,7 +380,7 @@ function App() {
                 />
                 <button 
                   className="search-button" 
-                  onClick={() => handleSearch()}
+                  onClick={() => handleSearch(undefined, 'manual')}
                   disabled={!question.trim()}
                 >
                   <svg className="search-icon" viewBox="0 0 24 24">
@@ -383,7 +399,7 @@ function App() {
                       className="quick-tag-chip"
                       onClick={() => {
                         setQuestion(tag.query);
-                        handleSearch(tag.query);
+                        handleSearch(tag.query, 'quick_tag');
                       }}
                     >
                       {tag.label}
@@ -484,14 +500,20 @@ function App() {
               <button
                 className={mobileReaderLanguage === 'sanskrit' ? 'active' : ''}
                 aria-pressed={mobileReaderLanguage === 'sanskrit'}
-                onClick={() => setMobileReaderLanguage('sanskrit')}
+                onClick={() => {
+                  setMobileReaderLanguage('sanskrit');
+                  captureProductEvent('language_changed', { book_id: result.bookId, chapter_id: result.chapterId, language: 'sanskrit', surface: 'mobile' });
+                }}
               >
                 Sanskrit
               </button>
               <button
                 className={mobileReaderLanguage === 'english' ? 'active' : ''}
                 aria-pressed={mobileReaderLanguage === 'english'}
-                onClick={() => { setMobileReaderLanguage('english'); setTranslationLang('english'); }}
+                onClick={() => {
+                  setMobileReaderLanguage('english'); setTranslationLang('english');
+                  captureProductEvent('language_changed', { book_id: result.bookId, chapter_id: result.chapterId, language: 'english', surface: 'mobile' });
+                }}
               >
                 English
               </button>
@@ -499,7 +521,10 @@ function App() {
                 className={mobileReaderLanguage === 'hindi' ? 'active' : ''}
                 aria-pressed={mobileReaderLanguage === 'hindi'}
                 disabled={!result?.verses?.some(v => v.hindi && v.hindi.trim() !== '')}
-                onClick={() => { setMobileReaderLanguage('hindi'); setTranslationLang('hindi'); }}
+                onClick={() => {
+                  setMobileReaderLanguage('hindi'); setTranslationLang('hindi');
+                  captureProductEvent('language_changed', { book_id: result.bookId, chapter_id: result.chapterId, language: 'hindi', surface: 'mobile' });
+                }}
               >
                 हिन्दी
               </button>
@@ -571,7 +596,12 @@ function App() {
                       {result?.attribution && (
                         <p className="source-attribution">
                           Edition: {result.attribution.edition} · Translation: {result.attribution.translator} ·{' '}
-                          <a href={result.attribution.url} target="_blank" rel="noreferrer">Source</a>
+                          <a
+                            href={result.attribution.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => captureProductEvent('outbound_source_clicked', { book_id: result.bookId, chapter_id: result.chapterId, destination: 'attribution_source' })}
+                          >Source</a>
                         </p>
                       )}
                     </div>
@@ -580,14 +610,20 @@ function App() {
                     <div className="translation-lang-tabs">
                       <button 
                         className={`lang-tab-btn ${translationLang === 'english' ? 'active' : ''}`}
-                        onClick={() => { setTranslationLang('english'); setMobileReaderLanguage('english'); }}
+                        onClick={() => {
+                          setTranslationLang('english'); setMobileReaderLanguage('english');
+                          captureProductEvent('language_changed', { book_id: result.bookId, chapter_id: result.chapterId, language: 'english', surface: 'desktop' });
+                        }}
                       >
                         English
                       </button>
                       <button 
                         className={`lang-tab-btn ${translationLang === 'hindi' ? 'active' : ''}`}
                         disabled={!result?.verses?.some(v => v.hindi && v.hindi.trim() !== '')}
-                        onClick={() => { setTranslationLang('hindi'); setMobileReaderLanguage('hindi'); }}
+                        onClick={() => {
+                          setTranslationLang('hindi'); setMobileReaderLanguage('hindi');
+                          captureProductEvent('language_changed', { book_id: result.bookId, chapter_id: result.chapterId, language: 'hindi', surface: 'desktop' });
+                        }}
                       >
                         हिन्दी
                       </button>
