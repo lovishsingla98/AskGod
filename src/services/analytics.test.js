@@ -24,6 +24,23 @@ describe('product analytics', () => {
     expect(client.capture.mock.calls[0][1].error_code).toHaveLength(80);
   });
 
+  it('captures the complete submitted question for the question log', () => {
+    const client = { capture: vi.fn() };
+    const question = `How can I stay calm while working through ${'a difficult season '.repeat(20)}?`;
+
+    captureProductEvent('question_submitted', {
+      input_length: question.length,
+      source: 'manual',
+      question_text: question,
+    }, client);
+
+    expect(client.capture).toHaveBeenCalledWith('question_submitted', {
+      input_length: question.length,
+      source: 'manual',
+      question_text: question,
+    });
+  });
+
   it('supports the complete product journey taxonomy', () => {
     const client = { capture: vi.fn() };
     for (const event of [

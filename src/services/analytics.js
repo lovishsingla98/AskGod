@@ -1,7 +1,7 @@
 import posthog from 'posthog-js';
 
 const EVENT_PROPERTIES = Object.freeze({
-  question_submitted: ['input_length', 'source'],
+  question_submitted: ['input_length', 'source', 'question_text'],
   guidance_received: ['book_id', 'chapter_id', 'provider', 'has_hindi'],
   guidance_failed: ['stage', 'error_code'],
   library_viewed: [],
@@ -10,8 +10,11 @@ const EVENT_PROPERTIES = Object.freeze({
   outbound_source_clicked: ['book_id', 'chapter_id', 'destination'],
 });
 
-const sanitize = value => {
-  if (typeof value === 'string') return value.trim().slice(0, 80);
+const sanitize = (value, key) => {
+  if (typeof value === 'string') {
+    const maxLength = key === 'question_text' ? 1000 : 80;
+    return value.trim().slice(0, maxLength);
+  }
   if (typeof value === 'number' && Number.isFinite(value)) return value;
   if (typeof value === 'boolean') return value;
   return undefined;
@@ -24,7 +27,7 @@ export function captureProductEvent(name, properties = {}, client = posthog) {
 
   const safeProperties = {};
   for (const key of allowed) {
-    const value = sanitize(properties[key]);
+    const value = sanitize(properties[key], key);
     if (value !== undefined && value !== '') safeProperties[key] = value;
   }
   client.capture(name, safeProperties);

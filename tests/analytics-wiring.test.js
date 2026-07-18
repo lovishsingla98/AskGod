@@ -5,11 +5,11 @@ import { describe, expect, it } from 'vitest';
 const source = readFileSync(resolve(import.meta.dirname, '../src/App.jsx'), 'utf8');
 
 describe('analytics wiring', () => {
-  it('tracks the complete guidance journey without raw question properties', () => {
+  it('tracks the complete guidance journey with the submitted question', () => {
     for (const event of ['question_submitted', 'guidance_received', 'guidance_failed']) {
       expect(source).toContain(`captureProductEvent('${event}'`);
     }
-    expect(source).not.toMatch(/captureProductEvent\([^)]*question\s*:/s);
+    expect(source).toMatch(/captureProductEvent\('question_submitted',[\s\S]*question_text:\s*activeQuery\.trim\(\)/);
   });
 
   it('tracks library, chapter, language, and source actions', () => {

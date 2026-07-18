@@ -87,7 +87,11 @@ function App() {
     const activeQuery = queryToSend || question;
     if (!activeQuery.trim()) return;
 
-    captureProductEvent('question_submitted', { input_length: activeQuery.trim().length, source });
+    captureProductEvent('question_submitted', {
+      input_length: activeQuery.trim().length,
+      source,
+      question_text: activeQuery.trim(),
+    });
 
     setLoading(true);
     setError(null);
@@ -376,6 +380,7 @@ function App() {
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   onKeyDown={handleKeyPress}
+                  maxLength={1000}
                   placeholder="Ask the scriptures a question... (e.g., How do I manage stress? Karma)"
                 />
                 <button 
