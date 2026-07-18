@@ -1,0 +1,19 @@
+{
+  "name": "AskGod — Guidance from Divine Books",
+  "short_name": "AskGod",
+  "description": "Explore relevant guidance from attributed editions of Hindu divine books.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#17120d",
+  "theme_color": "#17120d",
+  "categories": ["education", "books", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

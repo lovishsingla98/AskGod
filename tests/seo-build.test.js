@@ -11,6 +11,7 @@ describe('search discovery surface', () => {
     expect(html).toContain('<meta name="description"');
     expect(html).toContain('<meta property="og:url" content="https://askgod.in/"');
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image"');
+    expect(html).toContain('<link rel="manifest" href="/site.webmanifest"');
     expect(html).toContain('application/ld+json');
     expect(html).toContain('"@type": "FAQPage"');
     expect(html).toContain('How does AskGod choose a passage?');
@@ -20,6 +21,9 @@ describe('search discovery surface', () => {
     expect(read('public/robots.txt')).toContain('Sitemap: https://askgod.in/sitemap-index.xml');
     expect(read('public/llms.txt')).toContain('# AskGod');
     expect(read('public/sitemap-index.xml')).toContain('https://askgod.in/sitemaps/pages.xml');
+    const manifest = JSON.parse(read('public/site.webmanifest'));
+    expect(manifest.start_url).toBe('/');
+    expect(manifest.name).toBe('AskGod — Guidance from Divine Books');
   });
 
   it('keeps raw corpus JSON out of search results', () => {
