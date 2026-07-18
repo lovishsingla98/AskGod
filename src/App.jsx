@@ -303,10 +303,11 @@ function App() {
           <div className="fade-in">
             {/* Intro Hero Section */}
             <section className="hero-section">
-              <h2 className="hero-title">Seek Counsel from the Sacred Scriptures</h2>
+              <h2 className="hero-title">Feeling anxious, stressed, or struggling with financial or relationship problems?</h2>
               <p className="hero-subtitle">
-                Ask your question and watch the ebook pages open automatically to the exact untampered chapter and verse.
+                Ask God and let Him answer through His divine books.
               </p>
+              <p className="hero-belief">Solution to all your problems, only if you believe in him.</p>
             </section>
 
             {/* Search Bar Section */}
