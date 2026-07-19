@@ -27,7 +27,8 @@ describe('rotating deity background', () => {
     const css = fs.readFileSync(path.join(root, 'src/App.css'), 'utf8');
     expect(css).toContain('.deity-background');
     expect(css).toContain('pointer-events: none');
-    expect(css).toMatch(/\.deity-background-image\.active\s*\{[^}]*opacity:\s*0\.07;/s);
+    expect(css).toContain('--deity-background-opacity: 0.07;');
+    expect(css).toMatch(/\.deity-background-image\.active\s*\{[^}]*opacity:\s*var\(--deity-background-opacity\);/s);
     expect(css).toMatch(/@media \(max-width: 800px\)[\s\S]*\.deity-background-image/);
     expect(css).toMatch(/@media \(prefers-reduced-motion: reduce\)[\s\S]*\.deity-background-image/);
   });
